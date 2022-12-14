@@ -1,5 +1,5 @@
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2Fapirouter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/devyhan/apirouter)
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2Fapirouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/apirouter)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/devyhan/APIRouter)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/APIRouter)
 
 ![main](https://github.com/devyhan/apirouter/actions/workflows/ci.yml/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/devyhan/APIRouter/branch/main/graph/badge.svg?token=ZQNDOX2VDF)](https://codecov.io/gh/devyhan/APIRouter)
@@ -18,6 +18,21 @@ It also provides a way for developers to create custom endpoints DSL(Domain-Spec
 Additionally, it provides a way to track the status of each endpoint and to easily detect any changes or updates that have been made.
 
 Similar to Swift Evolution's [Regex builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md), URL string literal and a more powerful pattern result builder to help make Swift URL string processing fast and easy and without mistakes. Ultimately, with ***APIRouter***, changes are easy to detect and useful for maintenance.
+
+## Installation 📦
+- Using [Swift Package Manager](https://swift.org/package-manager)
+
+    ```swift
+    import PackageDescription
+
+    let package = Package(
+      name: "SomeApp",
+      dependencies: [
+        .Package(url: "https://github.com/devyhan/APIRouter", majorVersion: "<LATEST_RELEASES_VERSION>"),
+      ]
+    )
+    ```
+
 ## Configure APIRouter 📝
 ### Implement APIs Namespace 
 - To implement APIs namespace we create a new type that will house the domain and behavior of the APIs by conforming to `RouterProtocol`.
