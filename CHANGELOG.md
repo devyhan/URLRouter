@@ -1,7 +1,5 @@
 # Changelog 📝
 
----
-
 <table>
   <tr>
     <th>Release Version</th>
@@ -28,7 +26,5 @@
     <th>N/A</th>
   </tr>
 </table>
-
----
 
 **EOF**
