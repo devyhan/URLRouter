@@ -1,8 +1,10 @@
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2Fapirouter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/devyhan/apirouter)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2Fapirouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/apirouter)
+
 ![main](https://github.com/devyhan/apirouter/actions/workflows/ci.yml/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/devyhan/APIRouter/branch/main/graph/badge.svg?token=ZQNDOX2VDF)](https://codecov.io/gh/devyhan/APIRouter)
-![Swift](https://img.shields.io/badge/Swift-5.7-orange.svg)
-[![GitHub latest release](https://badgen.net/github/release/devyhan/apirouter)](https://github.com/devyhan/APIRouter/releases)
 [![GitHub license](https://badgen.net/github/license/micromatch/micromatch)](https://github.com/devyhan/APIRouter/blob/main/LICENSE)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/devyhan/apirouter?style=social)
 [![Twitter Follow @devyhan93](https://img.shields.io/twitter/follow/devyhan93?style=social)](https://twitter.com/devyhan93)
 
 <p align="center">
