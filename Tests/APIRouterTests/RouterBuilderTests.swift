@@ -4,7 +4,7 @@ import XCTest
 
 final class RouterBuilderTests: XCTestCase {
   func testGeneratedRouterWithRouterBuilder() {
-    let request = Router {
+    let router = Router {
       Request {
         Body {
           Param("VALUE", forKey: "KEY")
@@ -30,13 +30,13 @@ final class RouterBuilderTests: XCTestCase {
     urlRequest.httpMethod = "GET"
     urlRequest.allHTTPHeaderFields = header
     
-    guard let request = request?.request.urlRequest else { return }
+    guard let request = router?.urlRequest else { return }
     
     XCTAssertEqual(request, urlRequest)
   }
   
   func testGeneratedRouterWithRouterBuilderUsingBaseURL() {
-    let request = Router {
+    let router = Router {
       BaseURL("https://www.baseurl.com")
       Request {
         Body {
@@ -61,7 +61,7 @@ final class RouterBuilderTests: XCTestCase {
     urlRequest.httpMethod = "GET"
     urlRequest.allHTTPHeaderFields = header
     
-    guard let request = request?.request.urlRequest else { return }
+    guard let request = router?.urlRequest else { return }
     
     XCTAssertEqual(request, urlRequest)
   }
@@ -121,8 +121,8 @@ final class RouterBuilderTests: XCTestCase {
     optionTwoUrlRequest.httpMethod = "GET"
     optionTwoUrlRequest.allHTTPHeaderFields = header
     
-    guard let optionOneRequest = APIRouter.one.router?.request.urlRequest else { return }
-    guard let optionTwoRequest = APIRouter.two.router?.request.urlRequest else { return }
+    guard let optionOneRequest = APIRouter.one.router?.urlRequest else { return }
+    guard let optionTwoRequest = APIRouter.two.router?.urlRequest else { return }
     
     XCTAssertEqual(optionOneRequest, optionOneUrlRequest)
     XCTAssertEqual(optionTwoRequest, optionTwoUrlRequest)
