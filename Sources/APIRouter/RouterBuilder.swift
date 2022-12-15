@@ -18,11 +18,11 @@ public struct RouterBuilder {
     CombinedRouter(components)
   }
   
-  static func buildEither(first component: _RouterProtocol) -> _RouterProtocol {
+  public static func buildEither(first component: _RouterProtocol) -> _RouterProtocol {
     CombinedRouter([component])
   }
   
-  static func buildEither(second component: _RouterProtocol) -> _RouterProtocol {
+  public static func buildEither(second component: _RouterProtocol) -> _RouterProtocol {
     CombinedRouter([component])
   }
 }
