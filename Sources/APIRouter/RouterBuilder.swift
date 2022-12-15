@@ -52,6 +52,7 @@ public extension Router {
 
 public struct Router: _RouterProtocol {
   var request: Request
+  public var urlRequest: URLRequest?
   
   public init(_ request: Request) {
     self.request = request
@@ -76,6 +77,8 @@ public struct Request: _RouterProtocol {
     router.request.urlRequest?.httpBody = self.urlRequest?.httpBody
     router.request.urlRequest?.httpMethod = self.urlRequest?.httpMethod
     router.request.urlRequest?.allHTTPHeaderFields = self.urlRequest?.allHTTPHeaderFields
+    
+    router.urlRequest = router.request.urlRequest
   }
   
   private func buildUrl(_ router: inout Router) -> Foundation.URL? {
@@ -99,6 +102,6 @@ public struct BaseURL: _RouterProtocol {
   }
   
   public func build(_ router: inout Router) {
-    router.request.urlRequest = URLRequest(url: Foundation.URL(string: self.url)!)
+    router.request = Request(URLRequest(url: Foundation.URL(string: self.url)!))
   }
 }
