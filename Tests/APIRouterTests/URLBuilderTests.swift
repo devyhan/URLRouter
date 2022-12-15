@@ -113,4 +113,74 @@ final class URLBuilderTests: XCTestCase {
     
     XCTAssertEqual(url, "https://www.urltest.com/test/path?test=query")
   }
+  
+  func testSwitchConditionalStatementWorkingForBuildEitherInUrlBuilder() {
+    enum SchemeOptions {
+      case https
+      case http
+    }
+    
+    let options: SchemeOptions = .http
+    
+    let request = Request {
+      URL {
+        switch options {
+        case .https:
+          Scheme(.https)
+        case .http:
+          Scheme(.http)
+        }
+        Host("www.urltest.com")
+      }
+    }
+    
+    guard let url = request.urlRequest?.url?.absoluteString else { return }
+    
+    XCTAssertEqual(url, "http://www.urltest.com")
+  }
+  
+  func testIfConditionalStatementWorkingForBuildEitherInUrlBuilder() {
+    let conditional = true
+    
+    let request = Request {
+      URL {
+        if conditional == true {
+          Scheme(.http)
+        } else {
+          Scheme(.https)
+        }
+        Host("www.urltest.com")
+      }
+    }
+    
+    guard let url = request.urlRequest?.url?.absoluteString else { return }
+    
+    XCTAssertEqual(url, "http://www.urltest.com")
+  }
+  
+  /// #1: https://github.com/devyhan/APIRouter/issues/1
+  #warning("#1 change after issue resolution.")
+  func testForLoopStatementWorkingForBuildEitherInUrlBuilder() {
+    let queries = [
+      "query1": "value1"//,
+//      "query2": "value2",
+//      "query3": "value3",
+//      "query4": "value4",
+    ]
+    
+    let request = Request {
+      URL {
+        Scheme(.https)
+        Host("www.urltest.com")
+        
+        for query in queries {
+          Query(query.key, value: query.value)
+        }
+      }
+    }
+    
+    guard let url = request.urlRequest?.url?.absoluteString else { return }
+    
+    XCTAssertEqual(url, "https://www.urltest.com?query1=value1")
+  }
 }
