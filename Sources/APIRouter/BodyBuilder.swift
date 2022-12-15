@@ -46,7 +46,7 @@ public extension Body {
   }
 }
 
-struct Param: BodyProtocol {
+public struct Param: BodyProtocol {
   private let value: Any
   private let key: String
 
