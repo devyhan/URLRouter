@@ -1,30 +1,23 @@
 # Changelog 📝
 
-<table>
-  <tr>
-    <th>Release Version</th>
-    <th>0.1.0</th>
-  </tr>
-  <tr>
-    <th>Relative Date</th>
-    <td><img alt="Relative date" src="https://img.shields.io/date/1670996156"></td>
-  </tr>
-  <tr>
-    <th>Added</th>
-    <th>N/A</th>
-  </tr>
-  <tr>
-    <th>Fixed</th>
-    <th>N/A</th>
-  </tr>
-  <tr>
-    <th>Changed</th>
-    <th>N/A</th>
-  </tr>
-  <tr>
-    <th>Removed</th>
-    <th>N/A</th>
-  </tr>
-</table>
+|Release Version|0.1.1|
+|---|---|
+|Relative Date|![Relative date](https://img.shields.io/date/1671007936)|
+|Added|N/A|
+|Fixed|Fix struct the `Router` parameter for get `URLRequest` #5 by @devyhan <br/> Fix the public scope of the `Param` components of `BodyBuilder` #3 by @devyhan|
+|Changed|N/A|
+|Removed|N/A|
+
+---
+
+|Release Version|0.1.0|
+|---|---|
+|Relative Date|![Relative date](https://img.shields.io/date/1670996156)|
+|Added|N/A|
+|Fixed|N/A|
+|Changed|N/A|
+|Removed|N/A|
+
+---
 
 **EOF**
