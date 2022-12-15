@@ -7,48 +7,55 @@ final class BodyBuilderTests: XCTestCase {
     enum BodyOptions {
       case one
       case two
-    }
-    
-    let options: BodyOptions = .one
-    
-    let request = Request {
-      Body {
-        switch options {
-        case .one:
-          Param("VALUE", forKey: "OPTIONONE")
-        case .two:
-          Param("VALUE", forKey: "OPTIONTWO")
+      
+      var request: Request {
+        Request {
+          Body {
+            switch self {
+            case .one:
+              Param("VALUE", forKey: "OPTIONONE")
+            case .two:
+              Param("VALUE", forKey: "OPTIONTWO")
+            }
+          }
         }
       }
     }
     
-    guard
-      let httpBody = request.urlRequest?.httpBody,
-      let bodyString = String(data: httpBody, encoding: .utf8)
-    else { return }
-    
-    XCTAssertEqual(bodyString, "{\"OPTIONONE\":\"VALUE\"}")
+    if let optionOneBody = BodyOptions.one.request.urlRequest?.httpBody,
+       let optionOneBodyString = String(data: optionOneBody, encoding: .utf8),
+       let optionTwoBody = BodyOptions.two.request.urlRequest?.httpBody,
+       let optionTwoBodyString = String(data: optionTwoBody, encoding: .utf8) {
+      XCTAssertEqual(optionOneBodyString, "{\"OPTIONONE\":\"VALUE\"}")
+      XCTAssertEqual(optionTwoBodyString, "{\"OPTIONTWO\":\"VALUE\"}")
+    }
   }
   
   func testIfConditionalStatementWorkingForBuildEitherInUrlBuilder() {
-    let conditional = true
-    
-    let request = Request {
-      Body {
-        if conditional == true {
-          Param("VALUE", forKey: "OPTIONONE")
-        } else {
-          Param("VALUE", forKey: "OPTIONTWO")
+    enum BodyOptions {
+      case one
+      case two
+      
+      var request: Request {
+        Request {
+          Body {
+            if self == .one {
+              Param("VALUE", forKey: "OPTIONONE")
+            } else {
+              Param("VALUE", forKey: "OPTIONTWO")
+            }
+          }
         }
       }
     }
     
-    guard
-      let httpBody = request.urlRequest?.httpBody,
-      let bodyString = String(data: httpBody, encoding: .utf8)
-    else { return }
-    
-    XCTAssertEqual(bodyString, "{\"OPTIONONE\":\"VALUE\"}")
+    if let optionOneBody = BodyOptions.one.request.urlRequest?.httpBody,
+       let optionOneBodyString = String(data: optionOneBody, encoding: .utf8),
+       let optionTwoBody = BodyOptions.two.request.urlRequest?.httpBody,
+       let optionTwoBodyString = String(data: optionTwoBody, encoding: .utf8) {
+      XCTAssertEqual(optionOneBodyString, "{\"OPTIONONE\":\"VALUE\"}")
+      XCTAssertEqual(optionTwoBodyString, "{\"OPTIONTWO\":\"VALUE\"}")
+    }
   }
   
   func testForLoopStatementWorkingForBuildEitherInBodyBuilder() {
@@ -67,11 +74,9 @@ final class BodyBuilderTests: XCTestCase {
       }
     }
     
-    guard
-      let httpBody = request.urlRequest?.httpBody,
-      let bodyString = String(data: httpBody, encoding: .utf8)
-    else { return }
-    
-    XCTAssertEqual(bodyString.sorted(), ["\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", ",", ",", ",", "1", "1", "2", "2", "3", "3", "4", "4", ":", ":", ":", ":", "a", "a", "a", "a", "e", "e", "e", "e", "e", "e", "e", "e", "k", "k", "k", "k", "l", "l", "l", "l", "u", "u", "u", "u", "v", "v", "v", "v", "y", "y", "y", "y", "{", "}"])
+    if let httpBody = request.urlRequest?.httpBody,
+      let bodyString = String(data: httpBody, encoding: .utf8) {
+      XCTAssertEqual(bodyString.sorted(), ["\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", "\"", ",", ",", ",", "1", "1", "2", "2", "3", "3", "4", "4", ":", ":", ":", ":", "a", "a", "a", "a", "e", "e", "e", "e", "e", "e", "e", "e", "k", "k", "k", "k", "l", "l", "l", "l", "u", "u", "u", "u", "v", "v", "v", "v", "y", "y", "y", "y", "{", "}"])
+    }
   }
 }
