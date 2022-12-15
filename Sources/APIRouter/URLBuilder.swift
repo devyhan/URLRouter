@@ -34,11 +34,11 @@ public struct URLBuilder {
     CombinedURL(components)
   }
   
-  static func buildEither(first component: HttpUrlProtocol) -> HttpUrlProtocol {
+  public static func buildEither(first component: HttpUrlProtocol) -> HttpUrlProtocol {
     CombinedURL([component])
   }
   
-  static func buildEither(second component: HttpUrlProtocol) -> HttpUrlProtocol {
+  public static func buildEither(second component: HttpUrlProtocol) -> HttpUrlProtocol {
     CombinedURL([component])
   }
 }
