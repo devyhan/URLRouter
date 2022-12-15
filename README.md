@@ -19,6 +19,9 @@ Additionally, it provides a way to track the status of each endpoint and to easi
 
 Similar to Swift Evolution's [Regex builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md), URL string literal and a more powerful pattern result builder to help make Swift URL string processing fast and easy and without mistakes. Ultimately, with ***APIRouter***, changes are easy to detect and useful for maintenance.
 
+🤔 *Ask questions you’re wondering about [here](https://github.com/devyhan/APIRouter/discussions/new?category=q-a).*<br/>
+💡 *Share ideas [here](https://github.com/devyhan/APIRouter/discussions/new).*
+
 ## Installation 📦
 - Using [Swift Package Manager](https://swift.org/package-manager)
 
@@ -236,13 +239,13 @@ enum APIs: RouterProtocol {
 }
 
 // http://api.github.com/orgs/organization/repos
-let listOrganizationRepositoriesUrl = APIs.listOrganizationRepositories(organizationName: "organization").request.urlRequest?.url
+let listOrganizationRepositoriesUrl = APIs.listOrganizationRepositories(organizationName: "organization").router?.urlRequest?.url
 
 // http://api.github.com/search/repositories?q=apirouter
-let searchRepositoriesUrl = APIs.searchRepositories(query: "apirouter").request.urlRequest?.url
+let searchRepositoriesUrl = APIs.searchRepositories(query: "apirouter").router?.urlRequest?.url
 
 let repositoryInfo: APIs.RepositoryInfo = .init(name: "Hello-World", description: "This is your first repository", homePage: "https://github.com", private: false, hasIssues: true, hasProjects: true, hasWiki: false)
-let request = APIs.createAnOrganizationRepository(organizationName: "SomeOrganization", repositoryInfo: repositoryInfo).request.urlRequest
+let request = APIs.createAnOrganizationRepository(organizationName: "SomeOrganization", repositoryInfo: repositoryInfo).router?.urlRequest
 
 URLSession.shared.dataTask(with: request) { data, response, error in
 ...
