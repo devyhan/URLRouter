@@ -236,13 +236,13 @@ enum APIs: RouterProtocol {
 }
 
 // http://api.github.com/orgs/organization/repos
-let listOrganizationRepositoriesUrl = APIs.listOrganizationRepositories(organizationName: "organization").router?.request.urlRequest?.url
+let listOrganizationRepositoriesUrl = APIs.listOrganizationRepositories(organizationName: "organization").request.urlRequest?.url
 
 // http://api.github.com/search/repositories?q=apirouter
-let searchRepositoriesUrl = APIs.searchRepositories(query: "apirouter").router?.request.urlRequest?.url
+let searchRepositoriesUrl = APIs.searchRepositories(query: "apirouter").request.urlRequest?.url
 
 let repositoryInfo: APIs.RepositoryInfo = .init(name: "Hello-World", description: "This is your first repository", homePage: "https://github.com", private: false, hasIssues: true, hasProjects: true, hasWiki: false)
-let request = APIs.createAnOrganizationRepository(organizationName: "SomeOrganization", repositoryInfo: repositoryInfo).router?.request.urlRequest
+let request = APIs.createAnOrganizationRepository(organizationName: "SomeOrganization", repositoryInfo: repositoryInfo).request.urlRequest
 
 URLSession.shared.dataTask(with: request) { data, response, error in
 ...
