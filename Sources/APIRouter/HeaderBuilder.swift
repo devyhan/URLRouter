@@ -46,7 +46,7 @@ public extension Header {
   }
 }
 
-struct Field: HeaderProtocol {
+public struct Field: HeaderProtocol {
   private let value: String
   private let key: String
   
