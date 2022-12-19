@@ -29,18 +29,58 @@ final class URLBuilderTests: XCTestCase {
         Scheme(.custom("custom"))
       }
     }
-
-    guard let httpUrlString = httpUrlRequest.urlRequest?.url?.absoluteString else { return }
-    guard let httpsUrlString = httpsUrlRequest.urlRequest?.url?.absoluteString else { return }
-    guard let mqttUrlString = mqttUrlRequest.urlRequest?.url?.absoluteString else { return }
-    guard let mqttsUrlString = mqttsUrlRequest.urlRequest?.url?.absoluteString else { return }
-    guard let customUrlString = customUrlRequest.urlRequest?.url?.absoluteString else { return }
-
-    XCTAssertEqual(httpUrlString, "http:")
-    XCTAssertEqual(httpsUrlString, "https:")
-    XCTAssertEqual(mqttUrlString, "mqtt:")
-    XCTAssertEqual(mqttsUrlString, "mqtts:")
-    XCTAssertEqual(customUrlString, "custom:")
+    
+    if let httpUrlString = httpUrlRequest.urlRequest?.url?.absoluteString,
+       let httpsUrlString = httpsUrlRequest.urlRequest?.url?.absoluteString,
+       let mqttUrlString = mqttUrlRequest.urlRequest?.url?.absoluteString,
+       let mqttsUrlString = mqttsUrlRequest.urlRequest?.url?.absoluteString,
+       let customUrlString = customUrlRequest.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrlString, "http:")
+      XCTAssertEqual(httpsUrlString, "https:")
+      XCTAssertEqual(mqttUrlString, "mqtt:")
+      XCTAssertEqual(mqttsUrlString, "mqtts:")
+      XCTAssertEqual(customUrlString, "custom:")
+    }
+  }
+  
+  func testGeneratedUrlSchemeWithStaticParameterAndFunctionOfUrlBuilder() {
+    let httpUrlRequest = Request {
+      URL {
+        Scheme.http
+      }
+    }
+    let httpsUrlRequest = Request {
+      URL {
+        Scheme.https
+      }
+    }
+    let mqttUrlRequest = Request {
+      URL {
+        Scheme.mqtt
+      }
+    }
+    let mqttsUrlRequest = Request {
+      URL {
+        Scheme.mqtts
+      }
+    }
+    let customUrlRequest = Request {
+      URL {
+        Scheme.custom("custom")
+      }
+    }
+    
+    if let httpUrlString = httpUrlRequest.urlRequest?.url?.absoluteString,
+       let httpsUrlString = httpsUrlRequest.urlRequest?.url?.absoluteString,
+       let mqttUrlString = mqttUrlRequest.urlRequest?.url?.absoluteString,
+       let mqttsUrlString = mqttsUrlRequest.urlRequest?.url?.absoluteString,
+       let customUrlString = customUrlRequest.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrlString, "http:")
+      XCTAssertEqual(httpsUrlString, "https:")
+      XCTAssertEqual(mqttUrlString, "mqtt:")
+      XCTAssertEqual(mqttsUrlString, "mqtts:")
+      XCTAssertEqual(customUrlString, "custom:")
+    }
   }
   
   func testGeneratedUrlHostWithURLBuilder() {
@@ -49,10 +89,10 @@ final class URLBuilderTests: XCTestCase {
         Host("host.com")
       }
     }
-
-    guard let urlString = request.urlRequest?.url?.absoluteString else { return }
-
-    XCTAssertEqual(urlString, "//host.com")
+    
+    if let urlString = request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(urlString, "//host.com")
+    }
   }
   
   func testGeneratedUrlPathWithURLBuilder() {
@@ -61,10 +101,10 @@ final class URLBuilderTests: XCTestCase {
         Path("test/path")
       }
     }
-
-    guard let pathString = request.urlRequest?.url?.absoluteString else { return }
-
-    XCTAssertEqual(pathString, "/test/path")
+    
+    if let pathString = request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(pathString, "/test/path")
+    }
   }
   
   func testGeneratedUrlQueryWithURLBuilder() {
@@ -73,10 +113,10 @@ final class URLBuilderTests: XCTestCase {
         Query("test", value: "query")
       }
     }
-
-    guard let queryString = request.urlRequest?.url?.absoluteString else { return }
-
-    XCTAssertEqual(queryString, "?test=query")
+    
+    if let queryString = request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(queryString, "?test=query")
+    }
   }
   
   func testGeneratedMultyUrlQueryWithURLBuilder() {
@@ -90,13 +130,13 @@ final class URLBuilderTests: XCTestCase {
         )
       }
     }
-
-    guard let queryString = request.urlRequest?.url?.absoluteString else { return }
-
-    XCTAssertEqual(queryString.first, "?")
-    XCTAssertEqual(queryString.contains("first=firstQuery"), true)
-    XCTAssertEqual(queryString.contains("second=secondQuery"), true)
-    XCTAssertEqual(queryString.split(separator: "&").count, 2)
+    
+    if let queryString = request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(queryString.first, "?")
+      XCTAssertEqual(queryString.contains("first=firstQuery"), true)
+      XCTAssertEqual(queryString.contains("second=secondQuery"), true)
+      XCTAssertEqual(queryString.split(separator: "&").count, 2)
+    }
   }
   
   func testGeneratedURLWithURLBuilder() {
@@ -108,54 +148,65 @@ final class URLBuilderTests: XCTestCase {
         Query("test", value: "query")
       }
     }
-
-    guard let url = request.urlRequest?.url?.absoluteString else { return }
     
-    XCTAssertEqual(url, "https://www.urltest.com/test/path?test=query")
+    if let url = request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(url, "https://www.urltest.com/test/path?test=query")
+    }
   }
   
   func testSwitchConditionalStatementWorkingForBuildEitherInUrlBuilder() {
     enum SchemeOptions {
       case https
       case http
-    }
-    
-    let options: SchemeOptions = .http
-    
-    let request = Request {
-      URL {
-        switch options {
-        case .https:
-          Scheme(.https)
-        case .http:
-          Scheme(.http)
-        }
-        Host("www.urltest.com")
+      
+      var request: Request {
+        Request {
+         URL {
+           switch self {
+           case .https:
+             Scheme(.https)
+           case .http:
+             Scheme(.http)
+           }
+           Host("www.urltest.com")
+         }
+       }
       }
     }
     
-    guard let url = request.urlRequest?.url?.absoluteString else { return }
-    
-    XCTAssertEqual(url, "http://www.urltest.com")
+    if let httpUrl = SchemeOptions.http.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrl, "http://www.urltest.com")
+    }
+    if let httpsUrl = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpsUrl, "https://www.urltest.com")
+    }
   }
   
   func testIfConditionalStatementWorkingForBuildEitherInUrlBuilder() {
-    let conditional = true
-    
-    let request = Request {
-      URL {
-        if conditional == true {
-          Scheme(.http)
-        } else {
-          Scheme(.https)
-        }
-        Host("www.urltest.com")
+    enum SchemeOptions {
+      case https
+      case http
+      
+      var request: Request {
+        Request {
+         URL {
+           if self == .http {
+             Scheme(.http)
+           } else {
+             Scheme(.https)
+           }
+           Host("www.urltest.com")
+         }
+       }
       }
     }
     
-    guard let url = request.urlRequest?.url?.absoluteString else { return }
-    
-    XCTAssertEqual(url, "http://www.urltest.com")
+    if let httpUrl = SchemeOptions.http.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrl, "http://www.urltest.com")
+    }
+    if let httpsUrl = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpsUrl, "https://www.urltest.com")
+    }
   }
   
   /// #1: https://github.com/devyhan/APIRouter/issues/1
@@ -163,9 +214,9 @@ final class URLBuilderTests: XCTestCase {
   func testForLoopStatementWorkingForBuildEitherInUrlBuilder() {
     let queries = [
       "query1": "value1"//,
-//      "query2": "value2",
-//      "query3": "value3",
-//      "query4": "value4",
+      //      "query2": "value2",
+      //      "query3": "value3",
+      //      "query4": "value4",
     ]
     
     let request = Request {
@@ -179,8 +230,8 @@ final class URLBuilderTests: XCTestCase {
       }
     }
     
-    guard let url = request.urlRequest?.url?.absoluteString else { return }
-    
-    XCTAssertEqual(url, "https://www.urltest.com?query1=value1")
+    if let url = request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(url, "https://www.urltest.com?query1=value1")
+    }
   }
 }
