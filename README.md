@@ -167,6 +167,31 @@ Router {
 }
 // https://www.overrideurl.com/comments?postId=1
 ```
+
+#### URL Scheme declaration
+- Using `Scheme(_ scheme:)` to `Scheme` declaration.
+```swift 
+Request {
+  ...
+  URL {
+    Scheme(.https)
+    ...
+  }
+  ...
+}
+```
+- Using `static let scheme:` to `Scheme` declaration.
+```swift 
+Request {
+  ...
+  URL {
+    Scheme.https
+    ...
+  }
+  ...
+}
+```
+
 ---
 ### How to configure and use ***APIRouter*** in a real project?
 - Just create APIRouter.swift in your project! Happy hacking! 😁
