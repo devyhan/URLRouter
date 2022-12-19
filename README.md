@@ -111,6 +111,14 @@ Request {
   ...
 }
 ```
+- Using `static let method:` to `httpMethod` declaration.
+```swift
+Request {
+  ...
+  Method.get
+  ...
+}
+```
 ---
 ### URL declaration
 - Using `URL(_ url:)` to `URL` declaration.
@@ -189,7 +197,7 @@ enum APIs: RouterProtocol {
       switch self {
       case let .listOrganizationRepositories(organizationName):
         Request {
-          Method(.post)
+          Method.post
           Header {
             Field("application/vnd.github+json", forKey: "Accept")
             Field("Bearer <YOUR-TOKEN>", forKey: "Authorization")
@@ -201,7 +209,7 @@ enum APIs: RouterProtocol {
         }
       case let .createAnOrganizationRepository(organizationName, repositoryInfo):
         Request {
-          Method(.post)
+          Method.post
           Header {
             Field("application/vnd.github+json", forKey: "Accept")
             Field("Bearer <YOUR-TOKEN>", forKey: "Authorization")
@@ -222,7 +230,7 @@ enum APIs: RouterProtocol {
         }
       case let .searchRepositories(query):
         Request {
-          Method(.get)
+          Method.get
           Header {
             Field("application/vnd.github+json", forKey: "Accept")
             Field("Bearer <YOUR-TOKEN>", forKey: "Authorization")

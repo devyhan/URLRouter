@@ -1,5 +1,6 @@
 import Foundation
 
+/// [HttpMethod Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods#:~:text=HTTP%20request%20methods,-HTTP%20defines%20a)
 public enum HttpMethod: String {
   case options = "OPTIONS"
   case get     = "GET"
@@ -49,6 +50,33 @@ public extension Request {
 
 public struct Method: RequestProtocol {
   private let method: HttpMethod
+  
+  /// A parser of OPTIONS request method.
+  public static let options = Self(.options)
+  
+  /// A parser of GET request method.
+  public static let get = Self(.get)
+  
+  /// A parser of HEAD request method.
+  public static let head = Self(.head)
+  
+  /// A parser of POST requests.
+  public static let post = Self(.post)
+
+  /// A parser of PUT requests.
+  public static let put = Self(.put)
+
+  /// A parser of PATCH requests.
+  public static let patch = Self(.patch)
+
+  /// A parser of DELETE requests.
+  public static let delete = Self(.delete)
+  
+  /// A parser of TRACE requests.
+  public static let trace = Self(.trace)
+  
+  /// A parser of CONNECT requests.
+  public static let connect = Self(.connect)
   
   public init(_ method: HttpMethod) {
     self.method = method
