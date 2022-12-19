@@ -68,6 +68,18 @@ public extension URL {
 
 public struct Scheme: HttpUrlProtocol {
   private let scheme: URLScheme
+  
+  static let http = Self(.http)
+  
+  static let https = Self(.https)
+  
+  static let mqtt = Self(.mqtt)
+  
+  static let mqtts = Self(.mqtts)
+  
+  static func custom(_ value: String) -> Self {
+    Self(.custom(value))
+  }
 
   public init(_ scheme: URLScheme) {
     self.scheme = scheme
