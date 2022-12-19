@@ -10,25 +10,23 @@ final class RequestBuilderTests: XCTestCase {
       }
     }
     
-    guard
-      let requestBody = request.urlRequest?.httpBody,
-      let bodyString = String(data: requestBody, encoding: .utf8)
-    else { return }
-    
-    XCTAssertEqual(bodyString, "{\"KEY\":\"VALUE\"}")
+    if let requestBody = request.urlRequest?.httpBody,
+       let bodyString = String(data: requestBody, encoding: .utf8)
+    {
+      XCTAssertEqual(bodyString, "{\"KEY\":\"VALUE\"}")
+    }
   }
   
   func testGeneratedHttpRequestBodyWithObjectThroughInitializer() {
     let request = Request {
       Body(["KEY": "VALUE"])
     }
-
-    guard
-      let requestBody = request.urlRequest?.httpBody,
-      let bodyString = String(data: requestBody, encoding: .utf8)
-    else { return }
     
-    XCTAssertEqual(bodyString, "{\"KEY\":\"VALUE\"}")
+    if let requestBody = request.urlRequest?.httpBody,
+       let bodyString = String(data: requestBody, encoding: .utf8)
+    {
+      XCTAssertEqual(bodyString, "{\"KEY\":\"VALUE\"}")
+    }
   }
   
   func testGeneratedHttpRequestHeaderWithHeaderBuilder() {
@@ -38,9 +36,9 @@ final class RequestBuilderTests: XCTestCase {
       }
     }
     
-    guard let requestHeader = request.urlRequest?.value(forHTTPHeaderField: "JSON_KEY") else { return }
-   
-    XCTAssertEqual(requestHeader, "JSON_VALUE")
+    if let requestHeader = request.urlRequest?.value(forHTTPHeaderField: "JSON_KEY") {
+      XCTAssertEqual(requestHeader, "JSON_VALUE")
+    }
   }
   
   func testGeneratedHttpRequestHeaderWithRequestBuilder() {
@@ -48,9 +46,9 @@ final class RequestBuilderTests: XCTestCase {
       Header(["KEY": "VALUE"])
     }
     
-    guard let requestHeader = request.urlRequest?.value(forHTTPHeaderField: "KEY") else { return }
-    
-    XCTAssertEqual(requestHeader, "VALUE")
+    if let requestHeader = request.urlRequest?.value(forHTTPHeaderField: "KEY") {
+      XCTAssertEqual(requestHeader, "VALUE")
+    }
   }
   
   func testGeneratedMethodProtocolWithRequestBuilder() {
@@ -93,6 +91,46 @@ final class RequestBuilderTests: XCTestCase {
     XCTAssertEqual(connectUrlRequest.urlRequest?.httpMethod, "CONNECT")
   }
   
+  func testGeneratedMethodProtocolWithStaticParameterOfRequestBuilder() {
+    let optionsUrlRequest = Request {
+      Method.options
+    }
+    let getUrlRequest = Request {
+      Method.get
+    }
+    let headUrlRequest = Request {
+      Method.head
+    }
+    let postUrlRequest = Request {
+      Method.post
+    }
+    let putUrlRequest = Request {
+      Method.put
+    }
+    let patchUrlRequest = Request {
+      Method.patch
+    }
+    let deleteUrlRequest = Request {
+      Method.delete
+    }
+    let traceUrlRequest = Request {
+      Method.trace
+    }
+    let connectUrlRequest = Request {
+      Method.connect
+    }
+    
+    XCTAssertEqual(optionsUrlRequest.urlRequest?.httpMethod, "OPTIONS")
+    XCTAssertEqual(getUrlRequest.urlRequest?.httpMethod, "GET")
+    XCTAssertEqual(headUrlRequest.urlRequest?.httpMethod, "HEAD")
+    XCTAssertEqual(postUrlRequest.urlRequest?.httpMethod, "POST")
+    XCTAssertEqual(putUrlRequest.urlRequest?.httpMethod, "PUT")
+    XCTAssertEqual(patchUrlRequest.urlRequest?.httpMethod, "PATCH")
+    XCTAssertEqual(deleteUrlRequest.urlRequest?.httpMethod, "DELETE")
+    XCTAssertEqual(traceUrlRequest.urlRequest?.httpMethod, "TRACE")
+    XCTAssertEqual(connectUrlRequest.urlRequest?.httpMethod, "CONNECT")
+  }
+  
   func testGeneratedAssembleURLRequestWithRequestBuilder() {
     let request = Request {
       Body(["KEY": "VALUE"])
@@ -110,9 +148,9 @@ final class RequestBuilderTests: XCTestCase {
     urlRequest.httpBody = body
     urlRequest.httpMethod = "GET"
     urlRequest.allHTTPHeaderFields = header
-
-    guard let request = request.urlRequest else { return }
     
-    XCTAssertEqual(request, urlRequest)
+    if let request = request.urlRequest {
+      XCTAssertEqual(request, urlRequest)
+    }
   }
 }
