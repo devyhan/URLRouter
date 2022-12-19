@@ -158,43 +158,54 @@ final class URLBuilderTests: XCTestCase {
     enum SchemeOptions {
       case https
       case http
-    }
-    
-    let options: SchemeOptions = .http
-    
-    let request = Request {
-      URL {
-        switch options {
-        case .https:
-          Scheme(.https)
-        case .http:
-          Scheme(.http)
-        }
-        Host("www.urltest.com")
+      
+      var request: Request {
+        Request {
+         URL {
+           switch self {
+           case .https:
+             Scheme(.https)
+           case .http:
+             Scheme(.http)
+           }
+           Host("www.urltest.com")
+         }
+       }
       }
     }
     
-    if let url = request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(url, "http://www.urltest.com")
+    if let httpUrl = SchemeOptions.http.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrl, "http://www.urltest.com")
+    }
+    if let httpsUrl = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpsUrl, "https://www.urltest.com")
     }
   }
   
   func testIfConditionalStatementWorkingForBuildEitherInUrlBuilder() {
-    let conditional = true
-    
-    let request = Request {
-      URL {
-        if conditional == true {
-          Scheme(.http)
-        } else {
-          Scheme(.https)
-        }
-        Host("www.urltest.com")
+    enum SchemeOptions {
+      case https
+      case http
+      
+      var request: Request {
+        Request {
+         URL {
+           if self == .http {
+             Scheme(.http)
+           } else {
+             Scheme(.https)
+           }
+           Host("www.urltest.com")
+         }
+       }
       }
     }
     
-    if let url = request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(url, "http://www.urltest.com")
+    if let httpUrl = SchemeOptions.http.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrl, "http://www.urltest.com")
+    }
+    if let httpsUrl = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpsUrl, "https://www.urltest.com")
     }
   }
   
