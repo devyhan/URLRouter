@@ -1,11 +1,7 @@
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/devyhan/APIRouter)
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/APIRouter)
-
 ![main](https://github.com/devyhan/apirouter/actions/workflows/ci.yml/badge.svg?branch=main)
 [![codecov](https://codecov.io/gh/devyhan/APIRouter/branch/main/graph/badge.svg?token=ZQNDOX2VDF)](https://codecov.io/gh/devyhan/APIRouter)
-[![GitHub license](https://badgen.net/github/license/micromatch/micromatch)](https://github.com/devyhan/APIRouter/blob/main/LICENSE)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/devyhan/apirouter?style=social)
-[![Twitter Follow @devyhan93](https://img.shields.io/twitter/follow/devyhan93?style=social)](https://twitter.com/devyhan93)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/devyhan/APIRouter)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/APIRouter)
 
 <p align="center">
   <img src="./Resources/post.png" />
@@ -283,3 +279,8 @@ let request = APIs.createAnOrganizationRepository(organizationName: "SomeOrganiz
 URLSession.shared.dataTask(with: request) { data, response, error in
 ...
 ```
+## License
+
+***APIRouter*** is under MIT license. See the [LICENSE](LICENSE) file for more info.
+
+[![Twitter Follow @devyhan93](https://img.shields.io/twitter/follow/devyhan93?style=social)](https://twitter.com/devyhan93)
