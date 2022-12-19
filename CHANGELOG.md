@@ -1,5 +1,13 @@
 # Changelog 📝
 
+![Relative date](https://img.shields.io/date/1671433162)
+|Release|0.1.3|
+|:---|:---|
+|Added|Supported to the `HttpRequest` method as static parameter #16 by @devyhan <br/> Supported to the URL `Scheme` as static parameter and function #18 by @devyhan
+|Fixed|Fixed the phenomenon of a double CI test call #19 by @devyhan|
+
+---
+
 ![Relative date](https://img.shields.io/date/1671097337)
 |Release|0.1.2|
 |:---|:---|
