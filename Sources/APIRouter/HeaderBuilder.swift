@@ -46,21 +46,32 @@ public extension Header {
   }
 }
 
-public struct Field: HeaderProtocol {
-  private let value: String
+public struct Field: HeaderProtocol, BodyProtocol {
+  private let value: Any
   private let key: String
   
-  public init(_ value: String, forKey key: String) {
+  public init(_ value: Any, forKey key: String) {
     self.value = value
     self.key = key
   }
   
   public func build(_ header: inout Header) {
-    var headers: [String: String] = [:]
+    var headers: Dictionary<String, String> = [:]
     for item in header.headers {
-      headers.updateValue(item.value, forKey: item.key)
+      headers.updateValue(String(item.value), forKey: item.key)
     }
-    headers.updateValue(value, forKey: key)
+    if let value = value as? String {
+      headers.updateValue(String(value), forKey: key)
+    }
     header = Header(headers)
+  }
+  
+  public func build(_ body: inout Body) {
+    var dictionary: Dictionary<String, Any> = [:]
+    for item in body.body {
+      dictionary.updateValue(item.value, forKey: item.key)
+    }
+    dictionary.updateValue(value, forKey: key)
+    body = Body(dictionary)
   }
 }

@@ -13,9 +13,9 @@ final class BodyBuilderTests: XCTestCase {
           Body {
             switch self {
             case .one:
-              Param("VALUE", forKey: "OPTIONONE")
+              Field("VALUE", forKey: "OPTIONONE")
             case .two:
-              Param("VALUE", forKey: "OPTIONTWO")
+              Field("VALUE", forKey: "OPTIONTWO")
             }
           }
         }
@@ -40,9 +40,9 @@ final class BodyBuilderTests: XCTestCase {
         Request {
           Body {
             if self == .one {
-              Param("VALUE", forKey: "OPTIONONE")
+              Field("VALUE", forKey: "OPTIONONE")
             } else {
-              Param("VALUE", forKey: "OPTIONTWO")
+              Field("VALUE", forKey: "OPTIONTWO")
             }
           }
         }
@@ -69,7 +69,7 @@ final class BodyBuilderTests: XCTestCase {
     let request = Request {
       Body {
         for param in params {
-          Param(param.value, forKey: param.key)
+          Field(param.value, forKey: param.key)
         }
       }
     }

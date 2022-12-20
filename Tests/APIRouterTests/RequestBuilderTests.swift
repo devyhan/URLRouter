@@ -6,7 +6,7 @@ final class RequestBuilderTests: XCTestCase {
   func testGeneratedHttpRequestBodyWithBodyBuilder() {
     let request = Request {
       Body {
-        Param("VALUE", forKey: "KEY")
+        Field("VALUE", forKey: "KEY")
       }
     }
     

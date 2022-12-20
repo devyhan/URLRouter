@@ -76,9 +76,9 @@ Request {
 Request {
   ...
   Body {
-    Param("VALUE", forKey: "KEY")
-    Param("VALUE1", forKey: "KEY1")
-    Param("VALUE2", forKey: "KEY2")
+    Field("VALUE", forKey: "KEY")
+    Field("VALUE1", forKey: "KEY1")
+    Field("VALUE2", forKey: "KEY2")
     ...
   }
   ...
@@ -240,13 +240,13 @@ enum APIs: RouterProtocol {
             Path("orgs/\(organizationName)/repos")
           }
           Body {
-            Param(repositoryInfo.name, forKey: "name")
-            Param(repositoryInfo.description, forKey: "description")
-            Param(repositoryInfo.homePage, forKey: "homepage")
-            Param(repositoryInfo.private, forKey: "private")
-            Param(repositoryInfo.hasIssues, forKey: "has_issues")
-            Param(repositoryInfo.hasProjects, forKey: "has_projects")
-            Param(repositoryInfo.hasWiki, forKey: "has_wiki")
+            Field(repositoryInfo.name, forKey: "name")
+            Field(repositoryInfo.description, forKey: "description")
+            Field(repositoryInfo.homePage, forKey: "homepage")
+            Field(repositoryInfo.private, forKey: "private")
+            Field(repositoryInfo.hasIssues, forKey: "has_issues")
+            Field(repositoryInfo.hasProjects, forKey: "has_projects")
+            Field(repositoryInfo.hasWiki, forKey: "has_wiki")
           }
         }
       case let .searchRepositories(query):
