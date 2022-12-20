@@ -7,7 +7,7 @@ final class RouterBuilderTests: XCTestCase {
     let router = Router {
       Request {
         Body {
-          Param("VALUE", forKey: "KEY")
+          Field("VALUE", forKey: "KEY")
         }
         Method(.get)
         Header {
@@ -40,7 +40,7 @@ final class RouterBuilderTests: XCTestCase {
       BaseURL("https://www.baseurl.com")
       Request {
         Body {
-          Param("VALUE", forKey: "KEY")
+          Field("VALUE", forKey: "KEY")
         }
         Method(.get)
         Header {
@@ -77,7 +77,7 @@ final class RouterBuilderTests: XCTestCase {
           case .one:
             Request {
               Body {
-                Param("VALUE", forKey: "KEY")
+                Field("VALUE", forKey: "KEY")
               }
               Method(.get)
               Header {
@@ -91,7 +91,7 @@ final class RouterBuilderTests: XCTestCase {
           case .two:
             Request {
               Body {
-                Param("VALUE", forKey: "KEY")
+                Field("VALUE", forKey: "KEY")
               }
               Method(.get)
               Header {

@@ -45,23 +45,3 @@ public extension Body {
     self = body
   }
 }
-
-public struct Param: BodyProtocol {
-  private let value: Any
-  private let key: String
-
-  public init(_ value: Any, forKey key: String) {
-    self.value = value
-    self.key = key
-  }
-
-  public func build(_ body: inout Body) {
-    var dictionary: Dictionary<String, Any> = [:]
-    for item in body.body {
-      dictionary.updateValue(item.value, forKey: item.key)
-    }
-    dictionary.updateValue(value, forKey: key)
-    body = Body(dictionary)
-  }
-}
-
