@@ -75,6 +75,7 @@ public struct Request: _RouterProtocol {
   public func build(_ router: inout Router) {
     if let url = buildUrl(&router) {
       router.request.urlRequest = URLRequest(url: url)
+      router.request.urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
     }
     
     router.request.urlRequest?.httpBody = self.urlRequest?.httpBody

@@ -86,7 +86,7 @@ public struct Scheme: HttpUrlProtocol {
   }
 
   public func build(_ url: inout URL) {
-    url.components.scheme = self.scheme.rawValue
+    url.components?.scheme = self.scheme.rawValue
   }
 }
 
@@ -98,7 +98,7 @@ public struct Host: HttpUrlProtocol {
   }
 
   public func build(_ url: inout URL) {
-    url.components.host = self.host
+    url.components?.host = self.host
   }
 }
 
@@ -110,12 +110,12 @@ public struct Path: HttpUrlProtocol {
   }
 
   public func build(_ url: inout URL) {
-    url.components.path = self.path
+    url.components?.path = self.path
   }
 }
 
 public struct Query: HttpUrlProtocol {
-  var queries: [URLQueryItem] = []
+  var queries: Array<URLQueryItem> = []
   
   public init(_ queries: [URLQueryItem]) {
     self.queries = queries
@@ -132,6 +132,8 @@ public struct Query: HttpUrlProtocol {
   }
   
   public func build(_ url: inout URL) {
-    url.components.queryItems = self.queries
+    if let query = self.queries.first {
+      url.queryItems.append(URLQueryItem(name: query.name, value: query.value))
+    }
   }
 }

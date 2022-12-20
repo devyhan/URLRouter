@@ -119,10 +119,11 @@ public struct Body: RequestProtocol {
 }
 
 public struct URL: RequestProtocol {
-  var components: URLComponents
+  var components: URLComponents?
+  var queryItems: Array<URLQueryItem> = []
   
   public init(_ url: String) {
-    self.components = URLComponents(string: url) ?? URLComponents()
+    self.components = URLComponents(string: url)
   }
   
   public init(_ components: URLComponents) {
@@ -130,7 +131,8 @@ public struct URL: RequestProtocol {
   }
   
   public func build(_ apiRequest: inout Request) {
-    apiRequest.urlRequest?.url = self.components.url
     apiRequest.urlComponents = self.components
+    apiRequest.urlRequest?.url = self.components?.url
+    apiRequest.urlComponents?.queryItems = self.queryItems
   }
 }

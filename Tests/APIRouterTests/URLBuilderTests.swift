@@ -221,14 +221,12 @@ final class URLBuilderTests: XCTestCase {
     }
   }
   
-  /// #1: https://github.com/devyhan/APIRouter/issues/1
-  #warning("#1 change after issue resolution.")
   func testForLoopStatementWorkingForBuildEitherInUrlBuilder() {
     let queries = [
-      "query1": "value1"//,
-      //      "query2": "value2",
-      //      "query3": "value3",
-      //      "query4": "value4",
+      "query1": "value1",
+      "query2": "value2",
+      "query3": "value3",
+      "query4": "value4",
     ]
     
     let request = Request {
@@ -239,11 +237,17 @@ final class URLBuilderTests: XCTestCase {
         for query in queries {
           Query(query.key, value: query.value)
         }
+//        Query {
+//          Field("value1", forKey: "query1")
+//          Field("value2", forKey: "query2")
+//        }
       }
     }
     
+    print("✅", request.urlComponents?.query)
+    
     if let url = request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(url, "https://www.urltest.com?query1=value1")
+      XCTAssertEqual(url, "https://www.urltest.com?query1=value1&query2=value2&query3=value3&query4=value4")
     }
   }
 }

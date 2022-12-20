@@ -40,7 +40,7 @@ private struct CombinedQuery: QueryProtocol {
 public extension Query {
   init(@QueryBuilder _ fields: () -> QueryProtocol) {
     let combineQuery = fields()
-    var queries = Query([])
+    var queries = Query([:])
     combineQuery.build(&queries)
     self = queries
   }
