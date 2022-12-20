@@ -244,7 +244,7 @@ final class URLBuilderTests: XCTestCase {
       }
     }
     
-    print("✅", request.urlComponents?.query)
+    print("✅", request.urlComponents?.queryItems)
     
     if let url = request.urlRequest?.url?.absoluteString {
       XCTAssertEqual(url, "https://www.urltest.com?query1=value1&query2=value2&query3=value3&query4=value4")

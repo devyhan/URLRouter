@@ -133,6 +133,8 @@ public struct URL: RequestProtocol {
   public func build(_ apiRequest: inout Request) {
     apiRequest.urlComponents = self.components
     apiRequest.urlRequest?.url = self.components?.url
-    apiRequest.urlComponents?.queryItems = self.queryItems
+    if !queryItems.isEmpty {
+      apiRequest.urlComponents?.queryItems = self.queryItems
+    }
   }
 }

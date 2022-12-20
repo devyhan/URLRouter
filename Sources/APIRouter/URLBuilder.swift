@@ -132,8 +132,12 @@ public struct Query: HttpUrlProtocol {
   }
   
   public func build(_ url: inout URL) {
-    if let query = self.queries.first {
-      url.queryItems.append(URLQueryItem(name: query.name, value: query.value))
+    if self.queries.count > 1 {
+      url.components?.queryItems = self.queries
+    } else {
+      if let query = self.queries.first {
+        url.queryItems.append(URLQueryItem(name: query.name, value: query.value))
+      }
     }
   }
 }
