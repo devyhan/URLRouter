@@ -4,7 +4,7 @@
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/APIRouter)
 
 <p align="center">
-  <img src="./Resources/post.png" />
+  <img src="https://user-images.githubusercontent.com/45344633/208562346-19b44df3-c581-4f32-af8e-d85dbc99ec18.png" />
 </p>
 
 ## What's APIRouter 📟
