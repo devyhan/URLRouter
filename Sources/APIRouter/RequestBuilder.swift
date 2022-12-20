@@ -131,5 +131,6 @@ public struct URL: RequestProtocol {
   
   public func build(_ apiRequest: inout Request) {
     apiRequest.urlRequest?.url = self.components.url
+    apiRequest.urlComponents = self.components
   }
 }

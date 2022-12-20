@@ -46,7 +46,7 @@ public extension Header {
   }
 }
 
-public struct Field: HeaderProtocol, BodyProtocol {
+public struct Field: HeaderProtocol, BodyProtocol, QueryProtocol {
   private let value: Any
   private let key: String
   
@@ -73,5 +73,16 @@ public struct Field: HeaderProtocol, BodyProtocol {
     }
     dictionary.updateValue(value, forKey: key)
     body = Body(dictionary)
+  }
+  
+  public func build(_ query: inout Query) {
+    var queries: [URLQueryItem] = []
+    for item in query.queries {
+      queries.append(item)
+    }
+    if let value = value as? String {
+      queries.append(URLQueryItem(name: key, value: value))
+    }
+    query = Query(queries)
   }
 }

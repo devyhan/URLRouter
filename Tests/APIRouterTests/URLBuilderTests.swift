@@ -107,6 +107,18 @@ final class URLBuilderTests: XCTestCase {
     }
   }
   
+  func testRemovedPrefixSlashToUrlPath() {
+    let request = Request {
+      URL {
+        Path("/test/path")
+      }
+    }
+    
+    if let pathString = request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(pathString, "/test/path")
+    }
+  }
+  
   func testGeneratedUrlQueryWithURLBuilder() {
     let request = Request {
       URL {

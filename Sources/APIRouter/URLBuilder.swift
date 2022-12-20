@@ -115,7 +115,11 @@ public struct Path: HttpUrlProtocol {
 }
 
 public struct Query: HttpUrlProtocol {
-  private var queries: [URLQueryItem] = []
+  var queries: [URLQueryItem] = []
+  
+  public init(_ queries: [URLQueryItem]) {
+    self.queries = queries
+  }
   
   public init(_ name: String, value: String?) {
     self.queries.append(URLQueryItem(name: name, value: value))

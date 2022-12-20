@@ -53,6 +53,7 @@ public extension Router {
 public struct Router: _RouterProtocol {
   var request: Request
   public var urlRequest: URLRequest?
+  public var urlComponents: URLComponents?
   
   public init(_ request: Request) {
     self.request = request
@@ -65,15 +66,17 @@ public struct Router: _RouterProtocol {
 
 public struct Request: _RouterProtocol {
   var urlRequest: URLRequest?
+  var urlComponents: URLComponents?
   
   public init(_ urlRequest: URLRequest?) {
     self.urlRequest = urlRequest
   }
   
   public func build(_ router: inout Router) {
-    guard let url = buildUrl(&router) else { return }
+    if let url = buildUrl(&router) {
+      router.request.urlRequest = URLRequest(url: url)
+    }
     
-    router.request.urlRequest = URLRequest(url: url)
     router.request.urlRequest?.httpBody = self.urlRequest?.httpBody
     router.request.urlRequest?.httpMethod = self.urlRequest?.httpMethod
     router.request.urlRequest?.allHTTPHeaderFields = self.urlRequest?.allHTTPHeaderFields
@@ -86,8 +89,6 @@ public struct Request: _RouterProtocol {
     if let defaultUrl = urlRequest?.url?.absoluteString {
       if defaultUrl != "CANNOT_FIND_DEFAULT_URL" {
         url = Foundation.URL(string: defaultUrl, relativeTo: router.request.urlRequest?.url)
-      } else {
-        url = Foundation.URL(string: router.request.urlRequest?.url?.absoluteString ?? "")
       }
     }
     return url
