@@ -69,15 +69,15 @@ public extension URL {
 public struct Scheme: HttpUrlProtocol {
   private let scheme: URLScheme
   
-  static let http = Self(.http)
+  public static let http = Self(.http)
   
-  static let https = Self(.https)
+  public static let https = Self(.https)
   
-  static let mqtt = Self(.mqtt)
+  public static let mqtt = Self(.mqtt)
   
-  static let mqtts = Self(.mqtts)
+  public static let mqtts = Self(.mqtts)
   
-  static func custom(_ value: String) -> Self {
+  public static func custom(_ value: String) -> Self {
     Self(.custom(value))
   }
 
