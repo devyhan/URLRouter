@@ -83,13 +83,16 @@ public struct Request: _RouterProtocol {
     router.request.urlRequest?.allHTTPHeaderFields = self.urlRequest?.allHTTPHeaderFields
     
     router.urlRequest = router.request.urlRequest
+    router.urlComponents = router.request.urlComponents
   }
   
   private func buildUrl(_ router: inout Router) -> Foundation.URL? {
     var url: Foundation.URL?
-    if let defaultUrl = urlRequest?.url?.absoluteString {
-      if defaultUrl != "CANNOT_FIND_DEFAULT_URL" {
-        url = Foundation.URL(string: defaultUrl, relativeTo: router.request.urlRequest?.url)
+    if let urlRequestString = urlRequest?.url?.absoluteString,
+       let urlComponentsString = urlComponents?.url?.absoluteString {
+      if urlRequestString != "CANNOT_FIND_DEFAULT_URL" {
+        let urlString = urlRequestString > urlComponentsString ? urlRequestString : urlComponentsString
+        url = Foundation.URL(string: urlString, relativeTo: router.request.urlRequest?.url)
       }
     }
     return url

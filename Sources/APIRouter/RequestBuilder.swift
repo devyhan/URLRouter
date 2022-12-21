@@ -126,15 +126,12 @@ public struct URL: RequestProtocol {
     self.components = URLComponents(string: url)
   }
   
-  public init(_ components: URLComponents) {
-    self.components = components
-  }
-  
   public func build(_ apiRequest: inout Request) {
     apiRequest.urlComponents = self.components
     apiRequest.urlRequest?.url = self.components?.url
     if !queryItems.isEmpty {
       apiRequest.urlComponents?.queryItems = self.queryItems
+      apiRequest.urlRequest?.url = apiRequest.urlComponents?.url
     }
   }
 }

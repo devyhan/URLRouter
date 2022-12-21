@@ -151,7 +151,7 @@ final class URLBuilderTests: XCTestCase {
     }
   }
   
-  func testGeneratedURLWithURLBuilder() {
+  func testGeneratedUrlWithURLBuilder() {
     let request = Request {
       URL {
         Scheme(.https)
@@ -186,11 +186,10 @@ final class URLBuilderTests: XCTestCase {
       }
     }
     
-    if let httpUrl = SchemeOptions.http.request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(httpUrl, "http://www.urltest.com")
-    }
-    if let httpsUrl = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(httpsUrl, "https://www.urltest.com")
+    if let httpUrlString = SchemeOptions.http.request.urlRequest?.url?.absoluteString,
+       let httpsUrlstring = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrlString, "http://www.urltest.com")
+      XCTAssertEqual(httpsUrlstring, "https://www.urltest.com")
     }
   }
   
@@ -213,11 +212,10 @@ final class URLBuilderTests: XCTestCase {
       }
     }
     
-    if let httpUrl = SchemeOptions.http.request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(httpUrl, "http://www.urltest.com")
-    }
-    if let httpsUrl = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(httpsUrl, "https://www.urltest.com")
+    if let httpUrlString = SchemeOptions.http.request.urlRequest?.url?.absoluteString,
+       let httpsUrlString = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrlString, "http://www.urltest.com")
+      XCTAssertEqual(httpsUrlString, "https://www.urltest.com")
     }
   }
   
@@ -237,17 +235,14 @@ final class URLBuilderTests: XCTestCase {
         for query in queries {
           Query(query.key, value: query.value)
         }
-//        Query {
-//          Field("value1", forKey: "query1")
-//          Field("value2", forKey: "query2")
-//        }
       }
     }
     
-    print("✅", request.urlComponents?.queryItems)
-    
-    if let url = request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(url, "https://www.urltest.com?query1=value1&query2=value2&query3=value3&query4=value4")
+    if let queryItems = request.urlComponents?.queryItems {
+      XCTAssertEqual(queryItems.contains(URLQueryItem(name: "query1", value: "value1")), true)
+      XCTAssertEqual(queryItems.contains(URLQueryItem(name: "query2", value: "value2")), true)
+      XCTAssertEqual(queryItems.contains(URLQueryItem(name: "query3", value: "value3")), true)
+      XCTAssertEqual(queryItems.contains(URLQueryItem(name: "query4", value: "value4")), true)
     }
   }
 }
