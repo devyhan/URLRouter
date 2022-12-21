@@ -22,17 +22,17 @@ final class RouterBuilderTests: XCTestCase {
       }
     }
     
-    var urlRequest = URLRequest(url: Foundation.URL(string: "https://www.baseurl.com/comments?postId=1")!)
+    var mcokUrlRequest = URLRequest(url: Foundation.URL(string: "https://www.baseurl.com/comments?postId=1")!)
     let bodyDictionary = ["KEY": "VALUE"]
     let body = try! JSONSerialization.data(withJSONObject: bodyDictionary, options: .fragmentsAllowed)
     let header = ["HEADERKEY": "HEADERVALUE"]
-    urlRequest.httpBody = body
-    urlRequest.httpMethod = "GET"
-    urlRequest.allHTTPHeaderFields = header
+    mcokUrlRequest.httpBody = body
+    mcokUrlRequest.httpMethod = "GET"
+    mcokUrlRequest.allHTTPHeaderFields = header
     
-    guard let request = router?.urlRequest else { return }
-    
-    XCTAssertEqual(request, urlRequest)
+    if let urlRequest = router?.urlRequest {
+      XCTAssertEqual(urlRequest, mcokUrlRequest)
+    }
   }
   
   func testGeneratedRouterWithRouterBuilderUsingBaseURL() {
@@ -53,17 +53,17 @@ final class RouterBuilderTests: XCTestCase {
       }
     }
     
-    var urlRequest = URLRequest(url: Foundation.URL(string: "https://www.baseurl.com/comments?postId=1")!)
+    var mockUrlRequest = URLRequest(url: Foundation.URL(string: "https://www.baseurl.com/comments?postId=1")!)
     let bodyDictionary = ["KEY": "VALUE"]
     let body = try! JSONSerialization.data(withJSONObject: bodyDictionary, options: .fragmentsAllowed)
     let header = ["HEADERKEY": "HEADERVALUE"]
-    urlRequest.httpBody = body
-    urlRequest.httpMethod = "GET"
-    urlRequest.allHTTPHeaderFields = header
+    mockUrlRequest.httpBody = body
+    mockUrlRequest.httpMethod = "GET"
+    mockUrlRequest.allHTTPHeaderFields = header
     
-    guard let request = router?.urlRequest else { return }
-    
-    XCTAssertEqual(request, urlRequest)
+    if let urlRequest = router?.urlRequest {
+      XCTAssertEqual(urlRequest, mockUrlRequest)
+    }
   }
   
   func testRouterSwiftchBranching() {
@@ -111,20 +111,20 @@ final class RouterBuilderTests: XCTestCase {
     let body = try! JSONSerialization.data(withJSONObject: bodyDictionary, options: .fragmentsAllowed)
     let header = ["HEADERKEY": "HEADERVALUE"]
     
-    var optionOneUrlRequest = URLRequest(url: Foundation.URL(string: "https://www.baseurl.com/comments?postId=1")!)
-    optionOneUrlRequest.httpBody = body
-    optionOneUrlRequest.httpMethod = "GET"
-    optionOneUrlRequest.allHTTPHeaderFields = header
+    var mockOptionOneUrlRequest = URLRequest(url: Foundation.URL(string: "https://www.baseurl.com/comments?postId=1")!)
+    mockOptionOneUrlRequest.httpBody = body
+    mockOptionOneUrlRequest.httpMethod = "GET"
+    mockOptionOneUrlRequest.allHTTPHeaderFields = header
     
-    var optionTwoUrlRequest = URLRequest(url: Foundation.URL(string: "https://www.baseurl.com/comments?postId=2")!)
-    optionTwoUrlRequest.httpBody = body
-    optionTwoUrlRequest.httpMethod = "GET"
-    optionTwoUrlRequest.allHTTPHeaderFields = header
+    var mockOptionTwoUrlRequest = URLRequest(url: Foundation.URL(string: "https://www.baseurl.com/comments?postId=2")!)
+    mockOptionTwoUrlRequest.httpBody = body
+    mockOptionTwoUrlRequest.httpMethod = "GET"
+    mockOptionTwoUrlRequest.allHTTPHeaderFields = header
     
-    guard let optionOneRequest = APIRouter.one.router?.urlRequest else { return }
-    guard let optionTwoRequest = APIRouter.two.router?.urlRequest else { return }
-    
-    XCTAssertEqual(optionOneRequest, optionOneUrlRequest)
-    XCTAssertEqual(optionTwoRequest, optionTwoUrlRequest)
+    if let optionOneUrlRequest = APIRouter.one.router?.urlRequest,
+       let optionTwoUrlRequest = APIRouter.two.router?.urlRequest {
+      XCTAssertEqual(optionOneUrlRequest, mockOptionOneUrlRequest)
+      XCTAssertEqual(optionTwoUrlRequest, mockOptionTwoUrlRequest)
+    }
   }
 }

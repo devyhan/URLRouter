@@ -107,6 +107,18 @@ final class URLBuilderTests: XCTestCase {
     }
   }
   
+  func testRemovedPrefixSlashToUrlPath() {
+    let request = Request {
+      URL {
+        Path("/test/path")
+      }
+    }
+    
+    if let pathString = request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(pathString, "/test/path")
+    }
+  }
+  
   func testGeneratedUrlQueryWithURLBuilder() {
     let request = Request {
       URL {
@@ -139,7 +151,7 @@ final class URLBuilderTests: XCTestCase {
     }
   }
   
-  func testGeneratedURLWithURLBuilder() {
+  func testGeneratedUrlWithURLBuilder() {
     let request = Request {
       URL {
         Scheme(.https)
@@ -174,11 +186,10 @@ final class URLBuilderTests: XCTestCase {
       }
     }
     
-    if let httpUrl = SchemeOptions.http.request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(httpUrl, "http://www.urltest.com")
-    }
-    if let httpsUrl = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(httpsUrl, "https://www.urltest.com")
+    if let httpUrlString = SchemeOptions.http.request.urlRequest?.url?.absoluteString,
+       let httpsUrlstring = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrlString, "http://www.urltest.com")
+      XCTAssertEqual(httpsUrlstring, "https://www.urltest.com")
     }
   }
   
@@ -201,22 +212,19 @@ final class URLBuilderTests: XCTestCase {
       }
     }
     
-    if let httpUrl = SchemeOptions.http.request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(httpUrl, "http://www.urltest.com")
-    }
-    if let httpsUrl = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(httpsUrl, "https://www.urltest.com")
+    if let httpUrlString = SchemeOptions.http.request.urlRequest?.url?.absoluteString,
+       let httpsUrlString = SchemeOptions.https.request.urlRequest?.url?.absoluteString {
+      XCTAssertEqual(httpUrlString, "http://www.urltest.com")
+      XCTAssertEqual(httpsUrlString, "https://www.urltest.com")
     }
   }
   
-  /// #1: https://github.com/devyhan/APIRouter/issues/1
-  #warning("#1 change after issue resolution.")
   func testForLoopStatementWorkingForBuildEitherInUrlBuilder() {
     let queries = [
-      "query1": "value1"//,
-      //      "query2": "value2",
-      //      "query3": "value3",
-      //      "query4": "value4",
+      "query1": "value1",
+      "query2": "value2",
+      "query3": "value3",
+      "query4": "value4",
     ]
     
     let request = Request {
@@ -230,8 +238,11 @@ final class URLBuilderTests: XCTestCase {
       }
     }
     
-    if let url = request.urlRequest?.url?.absoluteString {
-      XCTAssertEqual(url, "https://www.urltest.com?query1=value1")
+    if let queryItems = request.urlComponents?.queryItems {
+      XCTAssertEqual(queryItems.contains(URLQueryItem(name: "query1", value: "value1")), true)
+      XCTAssertEqual(queryItems.contains(URLQueryItem(name: "query2", value: "value2")), true)
+      XCTAssertEqual(queryItems.contains(URLQueryItem(name: "query3", value: "value3")), true)
+      XCTAssertEqual(queryItems.contains(URLQueryItem(name: "query4", value: "value4")), true)
     }
   }
 }
