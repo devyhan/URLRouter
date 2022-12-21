@@ -1,5 +1,14 @@
 # Changelog 📝
 
+![Relative date](https://img.shields.io/date/1671605792)
+|Release|0.1.4|
+|:---|:---|
+|Added|Supported to `QueryBuilder` for using multiple `Query(_, value:)` declaration #29 by @devyhan|
+|Fixed|Modified a `Param` component of the `BodyBuilder` to a `Field` component #22 by @devyhan <br/> Modified the Github workflow to work when pushed to main branch #25 by @devyhan|
+|Removed|Removed image files that use data capacity #23 by @devyhan|
+
+--- 
+
 ![Relative date](https://img.shields.io/date/1671433162)
 |Release|0.1.3|
 |:---|:---|
