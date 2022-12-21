@@ -84,7 +84,7 @@ Request {
   ...
 }
 ```
-- Using `Dictionary` to `httpHeader` declaration.
+- Using `Dictionary<String, Any>` to `httpHeader` declaration.
 ```swift
 Request {
   ...
@@ -163,7 +163,6 @@ Router {
 }
 // https://www.overrideurl.com/comments?postId=1
 ```
-
 #### URL Scheme declaration
 - Using `Scheme(_ scheme:)` to `Scheme` declaration.
 ```swift 
@@ -187,7 +186,50 @@ Request {
   ...
 }
 ```
-
+#### URL Query declaration
+- Using `Dictionary<String, String?>` to `Query` declaration.
+```swift
+Request {
+  ...
+  URL {
+    Query(
+      [
+        "first": "firstQuery",
+        "second": "secondQuery",
+        ...
+      ]
+    )
+  }
+  ...
+}
+```
+- Using `Query(_, value:)` to `Query` declaration.
+```swift
+Request {
+  ...
+  URL {
+    Query("test", value: "query")
+    Query("test", value: "query")
+    ...
+  }
+  ...
+}
+```
+- Using `Field(_, forKey:)` to `Query` declaration.
+```swift
+Request {
+  ...
+  URL {
+    Query {
+      Field("firstQuery", forKey: "first")
+      Field("secondQuery", forKey: "second")
+      ...
+    }
+    ...
+  }
+  ...
+}
+```
 ---
 ### How to configure and use ***APIRouter*** in a real project?
 - Just create APIRouter.swift in your project! Happy hacking! 😁
