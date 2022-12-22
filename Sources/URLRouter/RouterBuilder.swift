@@ -1,56 +1,56 @@
 import Foundation
 
-public protocol RouterProtocol {
-  var router: Router? { get }
+public protocol URLRoutable {
+  var router: URLRouter { get }
 }
 
-public protocol _RouterProtocol {
-  func build(_ router: inout Router)
+public protocol URLRouterProtocol {
+  func build(_ router: inout URLRouter)
 }
 
 @resultBuilder
 public struct RouterBuilder {
-  public static func buildBlock(_ components: _RouterProtocol...) -> _RouterProtocol {
+  public static func buildBlock(_ components: URLRouterProtocol...) -> URLRouterProtocol {
     CombinedRouter(components)
   }
   
-  public static func buildArray(_ components: [_RouterProtocol]) -> _RouterProtocol {
+  public static func buildArray(_ components: [URLRouterProtocol]) -> URLRouterProtocol {
     CombinedRouter(components)
   }
   
-  public static func buildEither(first component: _RouterProtocol) -> _RouterProtocol {
+  public static func buildEither(first component: URLRouterProtocol) -> URLRouterProtocol {
     CombinedRouter([component])
   }
   
-  public static func buildEither(second component: _RouterProtocol) -> _RouterProtocol {
+  public static func buildEither(second component: URLRouterProtocol) -> URLRouterProtocol {
     CombinedRouter([component])
   }
 }
 
-private struct CombinedRouter: _RouterProtocol {
-  private let children: Array<_RouterProtocol>
+private struct CombinedRouter: URLRouterProtocol {
+  private let children: Array<URLRouterProtocol>
   
-  init(_ children: Array<_RouterProtocol>) {
+  init(_ children: Array<URLRouterProtocol>) {
     self.children = children
   }
   
-  func build(_ router: inout Router) {
+  func build(_ router: inout URLRouter) {
     children.forEach {
       $0.build(&router)
     }
   }
 }
   
-public extension Router {
-  init?(@RouterBuilder _ build: @escaping () -> _RouterProtocol) {
+public extension URLRouter {
+  init(@RouterBuilder _ build: @escaping () -> URLRouterProtocol) {
     let CombinedRouter = build()
-    var router = Router(Request(URLRequest(url: Foundation.URL(string: "CANNOT_FIND_BASE_URL")!)))
+    var router = URLRouter(Request(URLRequest(url: Foundation.URL(string: "CANNOT_FIND_BASE_URL")!)))
     CombinedRouter.build(&router)
     self = router
   }
 }
 
-public struct Router: _RouterProtocol {
+public struct URLRouter: URLRouterProtocol {
   var request: Request
   public var urlRequest: URLRequest?
   public var urlComponents: URLComponents?
@@ -59,12 +59,12 @@ public struct Router: _RouterProtocol {
     self.request = request
   }
   
-  public func build(_ router: inout Router) {
+  public func build(_ router: inout URLRouter) {
     router.request = self.request
   }
 }
 
-public struct Request: _RouterProtocol {
+public struct Request: URLRouterProtocol {
   var urlRequest: URLRequest?
   var urlComponents: URLComponents?
   
@@ -72,7 +72,7 @@ public struct Request: _RouterProtocol {
     self.urlRequest = urlRequest
   }
   
-  public func build(_ router: inout Router) {
+  public func build(_ router: inout URLRouter) {
     if let url = buildUrl(&router) {
       router.request.urlRequest = URLRequest(url: url)
       router.request.urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -86,7 +86,7 @@ public struct Request: _RouterProtocol {
     router.urlComponents = router.request.urlComponents
   }
   
-  private func buildUrl(_ router: inout Router) -> Foundation.URL? {
+  private func buildUrl(_ router: inout URLRouter) -> Foundation.URL? {
     var url: Foundation.URL?
     if let urlRequestString = urlRequest?.url?.absoluteString,
        let urlComponentsString = urlComponents?.url?.absoluteString {
@@ -99,14 +99,14 @@ public struct Request: _RouterProtocol {
   }
 }
 
-public struct BaseURL: _RouterProtocol {
+public struct BaseURL: URLRouterProtocol {
   let url: String
   
   public init(_ url: String) {
     self.url = url
   }
   
-  public func build(_ router: inout Router) {
+  public func build(_ router: inout URLRouter) {
     router.request = Request(URLRequest(url: Foundation.URL(string: self.url)!))
   }
 }

@@ -1,10 +1,10 @@
 import Foundation
 import XCTest
-@testable import APIRouter
+@testable import URLRouter
 
 final class RouterBuilderTests: XCTestCase {
   func testGeneratedRouterWithRouterBuilder() {
-    let router = Router {
+    let router = URLRouter {
       Request {
         Body {
           Field("VALUE", forKey: "KEY")
@@ -30,13 +30,13 @@ final class RouterBuilderTests: XCTestCase {
     mcokUrlRequest.httpMethod = "GET"
     mcokUrlRequest.allHTTPHeaderFields = header
     
-    if let urlRequest = router?.urlRequest {
+    if let urlRequest = router.urlRequest {
       XCTAssertEqual(urlRequest, mcokUrlRequest)
     }
   }
   
   func testGeneratedRouterWithRouterBuilderUsingBaseURL() {
-    let router = Router {
+    let router = URLRouter {
       BaseURL("https://www.baseurl.com")
       Request {
         Body {
@@ -61,17 +61,17 @@ final class RouterBuilderTests: XCTestCase {
     mockUrlRequest.httpMethod = "GET"
     mockUrlRequest.allHTTPHeaderFields = header
     
-    if let urlRequest = router?.urlRequest {
+    if let urlRequest = router.urlRequest {
       XCTAssertEqual(urlRequest, mockUrlRequest)
     }
   }
   
   func testRouterSwiftchBranching() {
-    enum APIRouter {
+    enum URLs {
       case one, two
       
-      var router: Router? {
-        Router {
+      var router: URLRouter {
+        URLRouter {
           BaseURL("https://www.baseurl.com")
           switch self {
           case .one:
@@ -121,8 +121,8 @@ final class RouterBuilderTests: XCTestCase {
     mockOptionTwoUrlRequest.httpMethod = "GET"
     mockOptionTwoUrlRequest.allHTTPHeaderFields = header
     
-    if let optionOneUrlRequest = APIRouter.one.router?.urlRequest,
-       let optionTwoUrlRequest = APIRouter.two.router?.urlRequest {
+    if let optionOneUrlRequest = URLs.one.router.urlRequest,
+       let optionTwoUrlRequest = URLs.two.router.urlRequest {
       XCTAssertEqual(optionOneUrlRequest, mockOptionOneUrlRequest)
       XCTAssertEqual(optionTwoUrlRequest, mockOptionTwoUrlRequest)
     }

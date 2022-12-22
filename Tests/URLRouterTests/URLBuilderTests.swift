@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-@testable import APIRouter
+@testable import URLRouter
 
 final class URLBuilderTests: XCTestCase {
   func testGeneratedUrlSchemeWithURLBuilder() {
