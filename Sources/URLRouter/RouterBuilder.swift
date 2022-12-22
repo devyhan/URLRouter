@@ -52,6 +52,7 @@ public extension URLRouter {
 
 public struct URLRouter: URLRouterProtocol {
   var request: Request
+  public var url: Foundation.URL?
   public var urlRequest: URLRequest?
   public var urlComponents: URLComponents?
   
