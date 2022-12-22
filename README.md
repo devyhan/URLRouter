@@ -231,7 +231,7 @@ Request {
 }
 ```
 ---
-### How to configure and use ***URLRouter*** in a real project?
+### How to configure and use ***URLRouter*** in a real world project?
 - Just create URLRouter.swift in your project! Happy hacking! 😁
 ```swift
 import URLRouter
@@ -243,6 +243,7 @@ enum URLs: RouterProtocol {
   case createAnOrganizationRepository(organizationName: String, repositoryInfo: RepositoryInfo)
   // DOC: https://docs.github.com/ko/rest/search?apiVersion=2022-11-28#search-repositories
   case searchRepositories(query: String)
+  case deeplink(path: String = "home")
 
   struct RepositoryInfo {
     let name: String
@@ -304,6 +305,16 @@ enum URLs: RouterProtocol {
             Query("q", value: query)
           }
         }
+      case let .deeplink(path):
+        URL {
+          Scheme.custom("example-deeplink")
+          Host("detail")
+          Path(path)
+          Query {
+            Field("postId", forKey: "1")
+            Field("createdAt", forKey: "2021-04-27T04:39:54.261Z")
+          }
+        }
       }
     }
   }
@@ -315,11 +326,27 @@ let listOrganizationRepositoriesUrl = URLs.listOrganizationRepositories(organiza
 // http://api.github.com/search/repositories?q=urlrouter
 let searchRepositoriesUrl = URLs.searchRepositories(query: "urlrouter").router?.urlRequest?.url
 
+// example-deeplink://detail/comments?1=postId&2021-04-27T04:39:54.261Z=createdA
+let deeplink = URLs.deeplink(path: "detail").router.url
+```
+- Using ***URLRouter*** to provide `URLRequest`.
+```swift
 let repositoryInfo: URLs.RepositoryInfo = .init(name: "Hello-World", description: "This is your first repository", homePage: "https://github.com", private: false, hasIssues: true, hasProjects: true, hasWiki: false)
 let request = URLs.createAnOrganizationRepository(organizationName: "SomeOrganization", repositoryInfo: repositoryInfo).router?.urlRequest
 
 URLSession.shared.dataTask(with: request) { data, response, error in
 ...
+```
+- Using ***URLRouter*** to provide deeplink `URL` and check to match this `URL`.
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  ... 
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+    let detailDeeplink = URLs.deeplink(path: "detail").router.url
+    if detailDeeplink == url {
+      ...
+    }
+  ...
 ```
 ## License
 
