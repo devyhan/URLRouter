@@ -1,7 +1,7 @@
 ![main](https://github.com/devyhan/urlrouter/actions/workflows/ci.yml/badge.svg?branch=main)
-[![codecov](https://codecov.io/gh/devyhan/URLRouter/branch/main/graph/badge.svg?token=ZQNDOX2VDF)](https://codecov.io/gh/devyhan/APIRouter)
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/devyhan/APIRouter)
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/APIRouter)
+[![codecov](https://codecov.io/gh/devyhan/URLRouter/branch/main/graph/badge.svg?token=ZQNDOX2VDF)](https://codecov.io/gh/devyhan/URLRouter)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FURLRouter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/devyhan/URLRouter)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FURLRouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/URLRouter)
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/45344633/208562346-19b44df3-c581-4f32-af8e-d85dbc99ec18.png" />
@@ -13,10 +13,10 @@ It provides a simple interface for managing multiple endpoints and allows develo
 It also provides a way for developers to create custom endpoints DSL(Domain-Specific Languages) and to manage their own settings for each endpoint.
 Additionally, it provides a way to track the status of each endpoint and to easily detect any changes or updates that have been made.
 
-Similar to Swift Evolution's [Regex builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md), URL string literal and a more powerful pattern result builder to help make Swift URL string processing fast and easy and without mistakes. Ultimately, with ***APIRouter***, changes are easy to detect and useful for maintenance.
+Similar to Swift Evolution's [Regex builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md), URL string literal and a more powerful pattern result builder to help make Swift URL string processing fast and easy and without mistakes. Ultimately, with ***URLRouter***, changes are easy to detect and useful for maintenance.
 
 🤔 *Ask questions you’re wondering about [here](https://github.com/devyhan/URLRouter/discussions/new?category=q-a).*<br/>
-💡 *Share ideas [here](https://github.com/devyhan/APIRouter/discussions/new).*
+💡 *Share ideas [here](https://github.com/devyhan/URLRouter/discussions/new).*
 
 ## Installation 📦
 - Using [Swift Package Manager](https://swift.org/package-manager)
@@ -34,11 +34,11 @@ Similar to Swift Evolution's [Regex builder DSL](https://github.com/apple/swift-
 
 ## Configure URLRouter 📝
 ### Implement URLs Namespace 
-- To implement URLs namespace we create a new type that will house the domain and behavior of the URLs by conforming to `RouterProtocol`.
+- To implement URLs namespace we create a new type that will house the domain and behavior of the URLs by conforming to `URLRoutable`.
 ```swift
 import URLRouter
 
-public enum URLs: RouterProtocol {
+public enum URLs: URLRoutable {
   ...
 }
 ```
@@ -236,7 +236,7 @@ Request {
 ```swift
 import URLRouter
 
-enum URLs: RouterProtocol {
+enum URLs: URLRoutable {
   // DOC: https://docs.github.com/ko/rest/repos/repos?apiVersion=2022-11-28#list-organization-repositories
   case listOrganizationRepositories(organizationName: String)
   // DOC: https://docs.github.com/ko/rest/repos/repos?apiVersion=2022-11-28#create-an-organization-repository
@@ -255,8 +255,8 @@ enum URLs: RouterProtocol {
     let hasWiki: Bool
   }
   
-  var router: Router? {
-    Router {
+  var router: URLRouter {
+    URLRouter {
       BaseURL("http://api.github.com")
       switch self {
       case let .listOrganizationRepositories(organizationName):

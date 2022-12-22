@@ -139,10 +139,5 @@ public struct URL: RequestProtocol, URLRouterProtocol {
     router.urlComponents = self.components
     router.urlRequest?.url = self.components?.url
     router.url = self.components?.url
-    if !queryItems.isEmpty {
-      router.urlComponents?.queryItems = self.queryItems
-      router.urlRequest?.url = router.urlComponents?.url
-      router.url = router.urlComponents?.url
-    }
   }
 }

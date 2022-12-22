@@ -68,7 +68,7 @@ final class RouterBuilderTests: XCTestCase {
   
   func testRouterSwiftchBranching() {
     enum URLs {
-      case one, two, deeplink
+      case one, two, homeDeeplink, detailDeeplink
       
       var router: URLRouter {
         URLRouter {
@@ -102,7 +102,12 @@ final class RouterBuilderTests: XCTestCase {
                 Query("postId", value: "2")
               }
             }
-          case .deeplink:
+          case .homeDeeplink:
+            URL {
+              Scheme.custom("example-deeplink")
+              Host("home")
+            }
+          case .detailDeeplink:
             URL {
               Scheme.custom("example-deeplink")
               Host("detail")
@@ -131,14 +136,17 @@ final class RouterBuilderTests: XCTestCase {
     mockOptionTwoUrlRequest.httpMethod = "GET"
     mockOptionTwoUrlRequest.allHTTPHeaderFields = header
     
-    let mockDeeplinkUrl = Foundation.URL(string: "example-deeplink://detail/comments?1=postId&2021-04-27T04:39:54.261Z=createdAt")!
+    let mockHomeDeeplinkUrl = Foundation.URL(string: "example-deeplink://home")!
+    let mockDetailDeeplinkUrl = Foundation.URL(string: "example-deeplink://detail/comments?1=postId&2021-04-27T04:39:54.261Z=createdAt")!
     
     if let optionOneUrlRequest = URLs.one.router.urlRequest,
        let optionTwoUrlRequest = URLs.two.router.urlRequest,
-       let deeplinkUrl = URLs.deeplink.router.url {
+       let homeDeeplinkUrl = URLs.homeDeeplink.router.url,
+       let detailDeeplinkUrl = URLs.detailDeeplink.router.url {
       XCTAssertEqual(optionOneUrlRequest, mockOptionOneUrlRequest)
       XCTAssertEqual(optionTwoUrlRequest, mockOptionTwoUrlRequest)
-      XCTAssertEqual(deeplinkUrl, mockDeeplinkUrl)
+      XCTAssertEqual(homeDeeplinkUrl, mockHomeDeeplinkUrl)
+      XCTAssertEqual(detailDeeplinkUrl, mockDetailDeeplinkUrl)
     }
   }
 }

@@ -1,5 +1,13 @@
 # Changelog 📝
 
+![Relative date](https://img.shields.io/date/1671759188)
+|Release|0.1.5|
+|:---|:---|
+|Changed|Changed the APIRouter name to URLRouter which is a universal meaning #33 by @devyhan|
+|Fixed|Fixed the public scope of the static parameter and static function of `Scheme` components #32 by @devyhan|
+
+---
+
 ![Relative date](https://img.shields.io/date/1671605792)
 |Release|0.1.4|
 |:---|:---|
