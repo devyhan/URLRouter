@@ -14,7 +14,7 @@ public enum HttpMethod: String {
 }
 
 public protocol RequestProtocol {
-  func build(_ apiRequest: inout Request)
+  func build(_ request: inout Request)
 }
 
 @resultBuilder
@@ -24,16 +24,16 @@ public struct RequestBuilder {
   }
 }
 
-private struct CombinedRequest: RequestProtocol {
+struct CombinedRequest: RequestProtocol {
   private let children: Array<RequestProtocol>
   
   init(_ children: Array<RequestProtocol>) {
     self.children = children
   }
   
-  func build(_ apiRequest: inout Request) {
+  func build(_ request: inout Request) {
     children.forEach {
-      $0.build(&apiRequest)
+      $0.build(&request)
     }
   }
 }
@@ -82,8 +82,8 @@ public struct Method: RequestProtocol {
     self.method = method
   }
   
-  public func build(_ apiRequest: inout Request) {
-    apiRequest.urlRequest?.httpMethod = method.rawValue
+  public func build(_ request: inout Request) {
+    request.urlRequest?.httpMethod = method.rawValue
   }
 }
 
@@ -94,9 +94,9 @@ public struct Header: RequestProtocol {
     self.headers = headers
   }
   
-  public func build(_ apiRequest: inout Request) {
+  public func build(_ request: inout Request) {
     for header in headers {
-      apiRequest.urlRequest?.addValue(header.value, forHTTPHeaderField: header.key)
+      request.urlRequest?.addValue(header.value, forHTTPHeaderField: header.key)
     }
   }
 }
@@ -108,17 +108,17 @@ public struct Body: RequestProtocol {
     self.body = body
   }
   
-  public func build(_ apiRequest: inout Request) {
+  public func build(_ request: inout Request) {
     do {
       let jsonData = try JSONSerialization.data(withJSONObject: self.body, options: .fragmentsAllowed)
-      apiRequest.urlRequest?.httpBody = jsonData
+      request.urlRequest?.httpBody = jsonData
     } catch {
       print("Error \(error)")
     }
   }
 }
 
-public struct URL: RequestProtocol {
+public struct URL: RequestProtocol, URLRouterProtocol {
   var components: URLComponents?
   var queryItems: Array<URLQueryItem> = []
   
@@ -126,12 +126,23 @@ public struct URL: RequestProtocol {
     self.components = URLComponents(string: url)
   }
   
-  public func build(_ apiRequest: inout Request) {
-    apiRequest.urlComponents = self.components
-    apiRequest.urlRequest?.url = self.components?.url
+  public func build(_ request: inout Request) {
+    request.urlComponents = self.components
+    request.urlRequest?.url = self.components?.url
     if !queryItems.isEmpty {
-      apiRequest.urlComponents?.queryItems = self.queryItems
-      apiRequest.urlRequest?.url = apiRequest.urlComponents?.url
+      request.urlComponents?.queryItems = self.queryItems
+      request.urlRequest?.url = request.urlComponents?.url
+    }
+  }
+
+  public func build(_ router: inout URLRouter) {
+    router.urlComponents = self.components
+    router.urlRequest?.url = self.components?.url
+    router.url = self.components?.url
+    if !queryItems.isEmpty {
+      router.urlComponents?.queryItems = self.queryItems
+      router.urlRequest?.url = router.urlComponents?.url
+      router.url = router.urlComponents?.url
     }
   }
 }

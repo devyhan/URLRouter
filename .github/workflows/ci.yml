@@ -12,9 +12,9 @@ jobs:
   test:
     runs-on: macOS-latest
     env:
-      PROJECT: APIRouter.xcodeproj
-      SCHEME: APIRouter-Package
-      CODECOV_PACKAGE_NAME: APIRouter
+      PROJECT: URLRouter.xcodeproj
+      SCHEME: URLRouter-Package
+      CODECOV_PACKAGE_NAME: URLRouter
     strategy:
       matrix:
         env:

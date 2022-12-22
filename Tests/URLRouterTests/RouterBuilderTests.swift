@@ -1,10 +1,10 @@
 import Foundation
 import XCTest
-@testable import APIRouter
+@testable import URLRouter
 
 final class RouterBuilderTests: XCTestCase {
   func testGeneratedRouterWithRouterBuilder() {
-    let router = Router {
+    let router = URLRouter {
       Request {
         Body {
           Field("VALUE", forKey: "KEY")
@@ -30,13 +30,13 @@ final class RouterBuilderTests: XCTestCase {
     mcokUrlRequest.httpMethod = "GET"
     mcokUrlRequest.allHTTPHeaderFields = header
     
-    if let urlRequest = router?.urlRequest {
+    if let urlRequest = router.urlRequest {
       XCTAssertEqual(urlRequest, mcokUrlRequest)
     }
   }
   
   func testGeneratedRouterWithRouterBuilderUsingBaseURL() {
-    let router = Router {
+    let router = URLRouter {
       BaseURL("https://www.baseurl.com")
       Request {
         Body {
@@ -61,17 +61,17 @@ final class RouterBuilderTests: XCTestCase {
     mockUrlRequest.httpMethod = "GET"
     mockUrlRequest.allHTTPHeaderFields = header
     
-    if let urlRequest = router?.urlRequest {
+    if let urlRequest = router.urlRequest {
       XCTAssertEqual(urlRequest, mockUrlRequest)
     }
   }
   
   func testRouterSwiftchBranching() {
-    enum APIRouter {
-      case one, two
+    enum URLs {
+      case one, two, deeplink
       
-      var router: Router? {
-        Router {
+      var router: URLRouter {
+        URLRouter {
           BaseURL("https://www.baseurl.com")
           switch self {
           case .one:
@@ -102,6 +102,16 @@ final class RouterBuilderTests: XCTestCase {
                 Query("postId", value: "2")
               }
             }
+          case .deeplink:
+            URL {
+              Scheme.custom("example-deeplink")
+              Host("detail")
+              Path("comments")
+              Query {
+                Field("postId", forKey: "1")
+                Field("createdAt", forKey: "2021-04-27T04:39:54.261Z")
+              }
+            }
           }
         }
       }
@@ -121,10 +131,14 @@ final class RouterBuilderTests: XCTestCase {
     mockOptionTwoUrlRequest.httpMethod = "GET"
     mockOptionTwoUrlRequest.allHTTPHeaderFields = header
     
-    if let optionOneUrlRequest = APIRouter.one.router?.urlRequest,
-       let optionTwoUrlRequest = APIRouter.two.router?.urlRequest {
+    let mockDeeplinkUrl = Foundation.URL(string: "example-deeplink://detail/comments?1=postId&2021-04-27T04:39:54.261Z=createdAt")!
+    
+    if let optionOneUrlRequest = URLs.one.router.urlRequest,
+       let optionTwoUrlRequest = URLs.two.router.urlRequest,
+       let deeplinkUrl = URLs.deeplink.router.url {
       XCTAssertEqual(optionOneUrlRequest, mockOptionOneUrlRequest)
       XCTAssertEqual(optionTwoUrlRequest, mockOptionTwoUrlRequest)
+      XCTAssertEqual(deeplinkUrl, mockDeeplinkUrl)
     }
   }
 }

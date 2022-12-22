@@ -1,5 +1,5 @@
-![main](https://github.com/devyhan/apirouter/actions/workflows/ci.yml/badge.svg?branch=main)
-[![codecov](https://codecov.io/gh/devyhan/APIRouter/branch/main/graph/badge.svg?token=ZQNDOX2VDF)](https://codecov.io/gh/devyhan/APIRouter)
+![main](https://github.com/devyhan/urlrouter/actions/workflows/ci.yml/badge.svg?branch=main)
+[![codecov](https://codecov.io/gh/devyhan/URLRouter/branch/main/graph/badge.svg?token=ZQNDOX2VDF)](https://codecov.io/gh/devyhan/APIRouter)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/devyhan/APIRouter)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdevyhan%2FAPIRouter%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/devyhan/APIRouter)
 
@@ -7,15 +7,15 @@
   <img src="https://user-images.githubusercontent.com/45344633/208562346-19b44df3-c581-4f32-af8e-d85dbc99ec18.png" />
 </p>
 
-## What's APIRouter 📟
-***APIRouter*** is provides an easy way to manage multiple RESTful API endpoints in Swift.
+## What's URLRouter 📟
+***URLRouter*** is provides an easy way to manage multiple URL endpoints in Swift.
 It provides a simple interface for managing multiple endpoints and allows developers to interact with them in a single, unified manner.
 It also provides a way for developers to create custom endpoints DSL(Domain-Specific Languages) and to manage their own settings for each endpoint.
 Additionally, it provides a way to track the status of each endpoint and to easily detect any changes or updates that have been made.
 
 Similar to Swift Evolution's [Regex builder DSL](https://github.com/apple/swift-evolution/blob/main/proposals/0351-regex-builder.md), URL string literal and a more powerful pattern result builder to help make Swift URL string processing fast and easy and without mistakes. Ultimately, with ***APIRouter***, changes are easy to detect and useful for maintenance.
 
-🤔 *Ask questions you’re wondering about [here](https://github.com/devyhan/APIRouter/discussions/new?category=q-a).*<br/>
+🤔 *Ask questions you’re wondering about [here](https://github.com/devyhan/URLRouter/discussions/new?category=q-a).*<br/>
 💡 *Share ideas [here](https://github.com/devyhan/APIRouter/discussions/new).*
 
 ## Installation 📦
@@ -27,18 +27,18 @@ Similar to Swift Evolution's [Regex builder DSL](https://github.com/apple/swift-
     let package = Package(
       name: "SomeApp",
       dependencies: [
-        .Package(url: "https://github.com/devyhan/APIRouter", majorVersion: "<LATEST_RELEASES_VERSION>"),
+        .Package(url: "https://github.com/devyhan/URLRouter", majorVersion: "<LATEST_RELEASES_VERSION>"),
       ]
     )
     ```
 
-## Configure APIRouter 📝
-### Implement APIs Namespace 
-- To implement APIs namespace we create a new type that will house the domain and behavior of the APIs by conforming to `RouterProtocol`.
+## Configure URLRouter 📝
+### Implement URLs Namespace 
+- To implement URLs namespace we create a new type that will house the domain and behavior of the URLs by conforming to `RouterProtocol`.
 ```swift
-import APIRouter
+import URLRouter
 
-public enum APIs: RouterProtocol {
+public enum URLs: RouterProtocol {
   ...
 }
 ```
@@ -231,18 +231,19 @@ Request {
 }
 ```
 ---
-### How to configure and use ***APIRouter*** in a real project?
-- Just create APIRouter.swift in your project! Happy hacking! 😁
+### How to configure and use ***URLRouter*** in a real world project?
+- Just create URLRouter.swift in your project! Happy hacking! 😁
 ```swift
-import APIRouter
+import URLRouter
 
-enum APIs: RouterProtocol {
+enum URLs: RouterProtocol {
   // DOC: https://docs.github.com/ko/rest/repos/repos?apiVersion=2022-11-28#list-organization-repositories
   case listOrganizationRepositories(organizationName: String)
   // DOC: https://docs.github.com/ko/rest/repos/repos?apiVersion=2022-11-28#create-an-organization-repository
   case createAnOrganizationRepository(organizationName: String, repositoryInfo: RepositoryInfo)
   // DOC: https://docs.github.com/ko/rest/search?apiVersion=2022-11-28#search-repositories
   case searchRepositories(query: String)
+  case deeplink(path: String = "home")
 
   struct RepositoryInfo {
     let name: String
@@ -304,25 +305,53 @@ enum APIs: RouterProtocol {
             Query("q", value: query)
           }
         }
+      case let .deeplink(path):
+        URL {
+          Scheme.custom("example-deeplink")
+          Host("detail")
+          Path(path)
+          Query {
+            Field("postId", forKey: "1")
+            Field("createdAt", forKey: "2021-04-27T04:39:54.261Z")
+          }
+        }
       }
     }
   }
 }
 
 // http://api.github.com/orgs/organization/repos
-let listOrganizationRepositoriesUrl = APIs.listOrganizationRepositories(organizationName: "organization").router?.urlRequest?.url
+let listOrganizationRepositoriesUrl = URLs.listOrganizationRepositories(organizationName: "organization").router?.urlRequest?.url
 
-// http://api.github.com/search/repositories?q=apirouter
-let searchRepositoriesUrl = APIs.searchRepositories(query: "apirouter").router?.urlRequest?.url
+// http://api.github.com/search/repositories?q=urlrouter
+let searchRepositoriesUrl = URLs.searchRepositories(query: "urlrouter").router?.urlRequest?.url
 
-let repositoryInfo: APIs.RepositoryInfo = .init(name: "Hello-World", description: "This is your first repository", homePage: "https://github.com", private: false, hasIssues: true, hasProjects: true, hasWiki: false)
-let request = APIs.createAnOrganizationRepository(organizationName: "SomeOrganization", repositoryInfo: repositoryInfo).router?.urlRequest
+// example-deeplink://detail/comments?1=postId&2021-04-27T04:39:54.261Z=createdA
+let deeplink = URLs.deeplink(path: "detail").router.url
+```
+- Using ***URLRouter*** to provide `URLRequest`.
+```swift
+let repositoryInfo: URLs.RepositoryInfo = .init(name: "Hello-World", description: "This is your first repository", homePage: "https://github.com", private: false, hasIssues: true, hasProjects: true, hasWiki: false)
+let request = URLs.createAnOrganizationRepository(organizationName: "SomeOrganization", repositoryInfo: repositoryInfo).router?.urlRequest
 
 URLSession.shared.dataTask(with: request) { data, response, error in
 ...
 ```
+- Using ***URLRouter*** to provide deeplink `URL` and check to match this `URL`.
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  ... 
+  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+    let detailDeeplink = URLs.deeplink(path: "detail").router.url
+    if detailDeeplink == url {
+      ...
+    }
+  ...
+```
 ## License
 
-***APIRouter*** is under MIT license. See the [LICENSE](LICENSE) file for more info.
+***URLRouter*** is under MIT license. See the [LICENSE](LICENSE) file for more info.
 
+---
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/devyhan/urlrouter?style=social)
 [![Twitter Follow @devyhan93](https://img.shields.io/twitter/follow/devyhan93?style=social)](https://twitter.com/devyhan93)
