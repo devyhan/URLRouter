@@ -1,10 +1,10 @@
 # Changelog 📝
 
-![Relative date](https://img.shields.io/date/1671759188)
+![Relative date](https://img.shields.io/date/1671761657)
 |Release|0.1.5|
 |:---|:---|
 |Changed|Changed the APIRouter name to URLRouter which is a universal meaning #33 by @devyhan|
-|Fixed|Fixed the public scope of the static parameter and static function of `Scheme` components #32 by @devyhan|
+|Fixed|Fixed the public scope of the static parameter and static function of `Scheme` components #32 by @devyhan <br/> Fixed explicitly disable codecov/patch coverage #35 by @devyhan|
 
 ---
 
