@@ -24,6 +24,16 @@ final class URLBuilderTests: XCTestCase {
         Scheme(.mqtts)
       }
     }
+    let wsUrlRequest = Request {
+      URL {
+        Scheme(.ws)
+      }
+    }
+    let wssUrlRequest = Request {
+      URL {
+        Scheme(.wss)
+      }
+    }
     let customUrlRequest = Request {
       URL {
         Scheme(.custom("custom"))
@@ -34,11 +44,15 @@ final class URLBuilderTests: XCTestCase {
        let httpsUrlString = httpsUrlRequest.urlRequest?.url?.absoluteString,
        let mqttUrlString = mqttUrlRequest.urlRequest?.url?.absoluteString,
        let mqttsUrlString = mqttsUrlRequest.urlRequest?.url?.absoluteString,
+       let wsUrlString = wsUrlRequest.urlRequest?.url?.absoluteString,
+       let wssUrlString = wssUrlRequest.urlRequest?.url?.absoluteString,
        let customUrlString = customUrlRequest.urlRequest?.url?.absoluteString {
       XCTAssertEqual(httpUrlString, "http:")
       XCTAssertEqual(httpsUrlString, "https:")
       XCTAssertEqual(mqttUrlString, "mqtt:")
       XCTAssertEqual(mqttsUrlString, "mqtts:")
+      XCTAssertEqual(wsUrlString, "ws:")
+      XCTAssertEqual(wssUrlString, "wss:")
       XCTAssertEqual(customUrlString, "custom:")
     }
   }

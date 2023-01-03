@@ -1,7 +1,7 @@
 import Foundation
 
 public enum URLScheme  {
-  case http, https, mqtt, mqtts
+  case http, https, mqtt, mqtts, ws, wss
   case custom(String)
   
   var rawValue: String {
@@ -14,6 +14,10 @@ public enum URLScheme  {
       return "mqtt"
     case .mqtts:
       return "mqtts"
+    case .ws:
+      return "ws"
+    case .wss:
+      return "wss"
     case let .custom(value):
       return value
     }
