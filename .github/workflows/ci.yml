@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: macOS-latest
+    runs-on: macos-12
     env:
       PROJECT: URLRouter.xcodeproj
       SCHEME: URLRouter-Package
@@ -19,7 +19,7 @@ jobs:
       matrix:
         env:
           - sdk: iphonesimulator
-            destination: platform=iOS Simulator,name=iPhone 14 Pro,OS=16.0
+            destination: platform=iOS Simulator,name=iPhone 14 Pro,OS=16.2
 
           - sdk: macosx
             destination: platform=macOS,arch=x86_64
@@ -32,13 +32,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
     - name: List SDKs and Devices
       run: xcodebuild -showsdks && xcrun xctrace list devices
-
     - name: Generate Xcode Project
       run: swift package generate-xcodeproj
-
     - name: Build and Test
       run: |
         xcodebuild clean build test \
@@ -47,11 +44,9 @@ jobs:
           -destination "$DESTINATION" \
           -configuration Debug \
           -enableCodeCoverage YES
-
       env:
         SDK: ${{ matrix.env.sdk }}
         DESTINATION: ${{ matrix.env.destination }}
-
     - name: Upload Code Coverage
       run: |
         bash <(curl -s https://codecov.io/bash) \
