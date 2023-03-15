@@ -19,7 +19,7 @@ jobs:
       matrix:
         env:
           - sdk: iphonesimulator
-            destination: platform=iOS Simulator,name=iPhone 14 Pro,OS=16.0
+            destination: platform=iOS Simulator,name=iPhone 14 Pro,OS=16.2
 
           - sdk: macosx
             destination: platform=macOS,arch=x86_64
